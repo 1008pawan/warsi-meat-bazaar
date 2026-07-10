@@ -20,6 +20,7 @@ import CategoryPage from "./components/pages/products/CategoryPage";
 import AdminLayout from "./admin/layout/AdminLayout";
 import Login from "./admin/auth/Login";
 import Dashboard from "./admin/pages/Dashboard";
+import AdminProfile from "./admin/pages/AdminProfile";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         {/* Admin Panel */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="adminprofile" element={<AdminProfile />} />
         </Route>
       </Routes>
     </>
