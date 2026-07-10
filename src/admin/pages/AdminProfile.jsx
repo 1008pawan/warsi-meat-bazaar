@@ -3,7 +3,7 @@ import React from 'react'
 const AdminProfile = () => {
   return (
     <div>
-      wkjddwj
+      wkjddwj 2sdesfrdhgbhg
     </div>
   )
 }
