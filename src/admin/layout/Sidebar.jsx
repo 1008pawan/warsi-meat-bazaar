@@ -51,11 +51,12 @@ export default function Sidebar({ open, setOpen }) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:static top-0 left-0 z-50
-          h-screen w-72 bg-red-600 text-white
-          transition-transform duration-300
-          ${open ? "translate-x-0" : "-translate-x-full"}
-          lg:translate-x-0
+           fixed left-0 top-0 z-40
+            h-screen w-72
+            bg-red-600
+            transition-transform duration-300
+            ${open ? "translate-x-0" : "-translate-x-full"}
+            lg:translate-x-0
         `}
       >
         {/* Header */}
@@ -65,7 +66,6 @@ export default function Sidebar({ open, setOpen }) {
 
             <p className="text-xs font-semibold text-white">ADMIN PANEL</p>
           </div>
-
         </div>
 
         {/* Menu */}
