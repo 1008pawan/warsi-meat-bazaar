@@ -10,9 +10,9 @@ import {
   Wallet,
   Eye,
 } from "lucide-react";
-import { useDashboard } from "../../hooks/useAdminDashboard";
+import { useDashboard } from "../../../hooks/useAdminDashboard";
 import { useState } from "react";
-import DashboardListDetails from "../ui/DashboardListDetails";
+import DashboardListDetails from "../../ui/DashboardListDetails";
 
 export default function Dashboard() {
   const [listModal, setListModal] = useState(false);
@@ -99,8 +99,10 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex h-96 items-center justify-center">
-        Loading Dashboard...
+      <div className="space-y-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-48 rounded-2xl bg-gray-100 animate-pulse" />
+        ))}
       </div>
     );
   }
@@ -335,10 +337,6 @@ export default function Dashboard() {
                   <p className="text-xs text-gray-500">Customer</p>
                   <p className="font-semibold">
                     {order.customer?.name || order.shipping_address?.name}
-                  </p>
-
-                  <p className="text-sm text-gray-500">
-                    {order.customer?.phone}
                   </p>
                 </div>
 

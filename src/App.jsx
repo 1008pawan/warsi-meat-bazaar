@@ -19,8 +19,11 @@ import CategoryPage from "./components/pages/products/CategoryPage";
 // Admin
 import AdminLayout from "./admin/layout/AdminLayout";
 import Login from "./admin/auth/Login";
-import Dashboard from "./admin/pages/Dashboard";
+import Dashboard from "./admin/pages/dashboard/Dashboard";
 import AdminProfile from "./admin/pages/AdminProfile";
+import Revenue from "./admin/pages/dashboard/Revenue";
+import Analytics from "./admin/pages/dashboard/Analytics";
+import AllOrders from "./admin/pages/AllOrders";
 
 function App() {
   return (
@@ -50,6 +53,9 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="adminprofile" element={<AdminProfile />} />
+          <Route path="analytics" element={<Analytics />} />
+          <Route path="revenue" element={<Revenue />} />
+          <Route path="allorders" element={<AllOrders />} />
         </Route>
       </Routes>
     </>

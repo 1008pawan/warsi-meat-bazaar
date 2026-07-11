@@ -41,7 +41,7 @@ const DashboardListDetails = ({ order, onClose }) => {
         <div className="overflow-y-auto max-h-[calc(92vh-90px)] p-8 bg-gray-50 space-y-8">
           {/* Summary */}
 
-          <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-5">
+          <div className="grid lg:grid-cols-5 md:grid-cols-2 gap-5">
             <SummaryCard
               title="Total Amount"
               value={`₹${order.total}`}
@@ -69,6 +69,12 @@ const DashboardListDetails = ({ order, onClose }) => {
               value={order.items?.length || 0}
               color="text-purple-600"
             />
+
+            <SummaryCard
+              title="Delivery OTP"
+              value={order.delivered_otp || "-"}
+              color="text-orange-600"
+            />
           </div>
 
           {/* Order */}
@@ -79,14 +85,37 @@ const DashboardListDetails = ({ order, onClose }) => {
             </h3>
 
             <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-5">
-              <Info label="Order Number" value={order.order_number} />
-              <Info label="Status" value={order.status} />
-              <Info label="Payment Status" value={order.payment_status} />
-              <Info label="Payment Method" value={order.payment_method} />
-              <Info label="Order Type" value={order.type} />
+              <Info label="Order ID" value={order.id} />
+
+              <Info label="Customer ID" value={order.customer_id} />
+
+              <Info label="Store ID" value={order.store_id} />
+
               <Info
-                label="Created At"
-                value={new Date(order.created_at).toLocaleString()}
+                label="Delivery Agent ID"
+                value={order.delivery_agent_id || "-"}
+              />
+
+              <Info label="Offer ID" value={order.offer_id || "-"} />
+
+              <Info label="Referral ID" value={order.referral_id || "-"} />
+
+              <Info label="Notes" value={order.notes || "-"} />
+
+              <Info label="Delivered OTP" value={order.delivered_otp || "-"} />
+
+              <Info label="Delivered At" value={order.delivered_at || "-"} />
+
+              <Info label="Cancelled At" value={order.cancelled_at || "-"} />
+
+              <Info
+                label="Cancellation Reason"
+                value={order.cancellation_reason || "-"}
+              />
+
+              <Info
+                label="Updated At"
+                value={new Date(order.updated_at).toLocaleString()}
               />
             </div>
           </section>
@@ -98,20 +127,63 @@ const DashboardListDetails = ({ order, onClose }) => {
               Customer Details
             </h3>
 
-            <div className="grid lg:grid-cols-2 gap-5">
+            <div className="grid lg:grid-cols-3 gap-5">
+              <Info label="Customer ID" value={order.customer?.id} />
+
+              <Info label="Email" value={order.customer?.email || "-"} />
+
+              <Info label="Status" value={order.customer?.status} />
+
               <Info
-                label="Customer Name"
-                value={order.customer?.name || order.shipping_address?.name}
+                label="Registered"
+                value={new Date(order.customer?.created_at).toLocaleString()}
               />
 
-              <Info label="Phone" value={order.customer?.phone} />
+              <Info
+                label="Last Updated"
+                value={new Date(order.customer?.updated_at).toLocaleString()}
+              />
+            </div>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-bold border-l-4 border-green-600 pl-3 mb-5">
+              Shipping Address
+            </h3>
+
+            <div className="grid md:grid-cols-4 grid-cols-2 gap-5">
+              <Info label="Label" value={order.shipping_address?.label} />
+
+              <Info label="Receiver" value={order.shipping_address?.name} />
+
+              <Info label="Phone" value={order.shipping_address?.phone} />
 
               <Info
-                label="Address"
-                value={`${order.shipping_address?.address_line1 || ""}, ${order.shipping_address?.address_line2 || ""}, ${order.shipping_address?.city || ""}, ${order.shipping_address?.state || ""} ${order.shipping_address?.pincode || ""}`}
+                label="Address Line 1"
+                value={order.shipping_address?.address_line1}
               />
+
+              <Info
+                label="Address Line 2"
+                value={order.shipping_address?.address_line2}
+              />
+
+              <Info label="City" value={order.shipping_address?.city} />
+
+              <Info label="State" value={order.shipping_address?.state} />
 
               <Info label="Country" value={order.shipping_address?.country} />
+
+              <Info label="Pincode" value={order.shipping_address?.pincode} />
+
+              <Info label="Latitude" value={order.shipping_address?.lat} />
+
+              <Info label="Longitude" value={order.shipping_address?.lng} />
+
+              <Info
+                label="Default Address"
+                value={order.shipping_address?.is_default ? "Yes" : "No"}
+              />
             </div>
           </section>
 
@@ -122,11 +194,42 @@ const DashboardListDetails = ({ order, onClose }) => {
               Store Details
             </h3>
 
-            <div className="grid lg:grid-cols-2 gap-5">
-              <Info label="Store Name" value={order.store?.name} />
-              <Info label="Phone" value={order.store?.phone} />
-              <Info label="Email" value={order.store?.email} />
-              <Info label="Address" value={order.store?.address} />
+            <div className="grid md:grid-cols-3 gap-5">
+              <Info label="Store ID" value={order.store?.id} />
+
+              <Info label="Owner ID" value={order.store?.owner_id} />
+
+              <Info label="Slug" value={order.store?.slug} />
+
+              <Info label="Description" value={order.store?.description} />
+
+              <Info
+                label="Commission"
+                value={`${order.store?.commission_rate}%`}
+              />
+
+              <Info label="Status" value={order.store?.status} />
+
+              <Info label="Store Status" value={order.store?.store_status} />
+
+              <Info
+                label="Featured"
+                value={order.store?.is_featured ? "Yes" : "No"}
+              />
+
+              <Info label="Rating" value={order.store?.rating} />
+
+              <Info label="Reviews" value={order.store?.total_reviews} />
+
+              <Info label="City" value={order.store?.city} />
+
+              <Info label="State" value={order.store?.state} />
+
+              <Info label="Country" value={order.store?.country} />
+
+              <Info label="Latitude" value={order.store?.latitude} />
+
+              <Info label="Longitude" value={order.store?.longitude} />
             </div>
           </section>
 
@@ -180,6 +283,16 @@ const DashboardListDetails = ({ order, onClose }) => {
                 color="text-purple-700"
               />
 
+              <AmountCard
+                title="Online"
+                amount={order.payment_method === "online" ? order.total : 0}
+              />
+
+              <AmountCard
+                title="Offline"
+                amount={order.payment_method === "cash" ? order.total : 0}
+              />
+
               <div className="bg-emerald-100 rounded-2xl p-5 lg:col-span-2 shadow-lg border border-zinc-200">
                 <p className="text-gray-600 text-sm">Grand Total</p>
 
@@ -210,6 +323,14 @@ const DashboardListDetails = ({ order, onClose }) => {
                     <th className="px-5 py-4 text-left">Unit</th>
 
                     <th className="px-5 py-4 text-left">Total</th>
+
+                    <th className="px-5 py-4 text-left">Product ID</th>
+
+                    <th className="px-5 py-4 text-left">Variant ID</th>
+
+                    <th className="px-5 py-4 text-left">Weight</th>
+
+                    <th className="px-5 py-4 text-left">Variant Attributes</th>
                   </tr>
                 </thead>
 
@@ -232,11 +353,41 @@ const DashboardListDetails = ({ order, onClose }) => {
                       <td className="px-5 py-4 font-semibold text-green-600">
                         ₹{item.subtotal}
                       </td>
+
+                      <td className="px-5 py-4">{item.product_id}</td>
+
+                      <td className="px-5 py-4">
+                        {item.product_variant_id || "-"}
+                      </td>
+
+                      <td className="px-5 py-4">{item.weight || "-"}</td>
+
+                      <td className="px-5 py-4">
+                        {item.variant_attributes || "-"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-bold border-l-4 border-green-600 pl-3 mb-5">
+              Delivery Agent
+            </h3>
+
+            {order.delivery_agent ? (
+              <>
+                <Info label="Name" value={order.delivery_agent.name} />
+
+                <Info label="Phone" value={order.delivery_agent.phone} />
+
+                <Info label="Status" value={order.delivery_agent.status} />
+              </>
+            ) : (
+              <div className="text-gray-500">Delivery Agent Not Assigned</div>
+            )}
           </section>
         </div>
       </div>

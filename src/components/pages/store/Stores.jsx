@@ -61,7 +61,7 @@ export default function StorePage() {
       {/* Banner */}
       <div className="relative h-[400px] overflow-hidden">
         <img
-          src="https://demo2.techsseract.com/temptest/storage/banners/Ip8XRI1HYuwg73sClwcw4tQYMeKyg4m03nazcE7Q.png"
+          src={`${STORAGE_URL}banners/Ip8XRI1HYuwg73sClwcw4tQYMeKyg4m03nazcE7Q.png`}
           alt="Store Banner"
           className="h-full w-full object-cover"
         />

@@ -10,12 +10,38 @@ import {
   Settings,
   LogOut,
   X,
+  ChevronDown,
+  ChevronRight,
 } from "lucide-react";
+
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
 const menus = [
-  { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
+  {
+    name: "Dashboard",
+    icon: LayoutDashboard,
+    children: [
+      {
+        name: "Overview",
+        path: "/admin",
+      },
+      {
+        name: "Revenue",
+        path: "/admin/revenue",
+      },
+      {
+        name: "Analytics",
+        path: "/admin/analytics",
+      },
+      {
+        name: "Allorders",
+        path: "/admin/allorders",
+      },
+    ],
+  },
+
   { name: "Categories", icon: Boxes, path: "/admin/categories" },
   { name: "Products", icon: Package, path: "/admin/products" },
   { name: "Orders", icon: ShoppingCart, path: "/admin/orders" },
@@ -27,6 +53,7 @@ const menus = [
 ];
 
 export default function Sidebar({ open, setOpen }) {
+  const [openMenu, setOpenMenu] = useState("");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -73,6 +100,52 @@ export default function Sidebar({ open, setOpen }) {
           {menus.map((menu) => {
             const Icon = menu.icon;
 
+            if (menu.children) {
+              return (
+                <div key={menu.name}>
+                  <button
+                    onClick={() =>
+                      setOpenMenu(openMenu === menu.name ? "" : menu.name)
+                    }
+                    className="w-full flex items-center justify-between rounded-xl px-4 py-3 text-white hover:bg-zinc-900 transition cursor-pointer"
+                  >
+                    <div className="flex items-center font-semibold gap-3">
+                      <Icon size={20} />
+                      <span>{menu.name}</span>
+                    </div>
+
+                    {openMenu === menu.name ? (
+                      <ChevronDown size={18} />
+                    ) : (
+                      <ChevronRight size={18} />
+                    )}
+                  </button>
+
+                  {openMenu === menu.name && (
+                    <div className="ml-8 mt-2 space-y-2">
+                      {menu.children.map((child) => (
+                        <NavLink
+                          key={child.path}
+                          to={child.path}
+                          end={child.path === "/admin"}
+                          onClick={() => setOpen(false)}
+                          className={({ isActive }) =>
+                            `block rounded-lg px-4 py-2 text-sm transition ${
+                              isActive
+                                ? "bg-white text-red-600 font-semibold"
+                                : "text-white hover:bg-zinc-900"
+                            }`
+                          }
+                        >
+                          {child.name}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             return (
               <NavLink
                 key={menu.path}
@@ -83,11 +156,11 @@ export default function Sidebar({ open, setOpen }) {
                   `flex items-center gap-3 rounded-xl px-4 py-3 font-semibold transition ${
                     isActive
                       ? "bg-white text-black"
-                      : "hover:bg-zinc-900 text-white"
+                      : "text-white hover:bg-zinc-900"
                   }`
                 }
               >
-                <Icon size={20} className="font-semibold" />
+                <Icon size={20} />
                 {menu.name}
               </NavLink>
             );
