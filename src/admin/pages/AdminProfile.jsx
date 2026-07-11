@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useProfile } from "../../hooks/useAdminProfile";
 
 const AdminProfile = () => {
   const { data: Profile, isLoading, error } = useProfile();
+
+  // DEBUGGING: Yeh console check karein, yahan se pata chalega data kahan hai
+//   useEffect(() => {
+//     console.log("API Full Response:", Profile);
+//   }, [Profile]);
 
   if (isLoading) {
     return (
@@ -20,8 +25,9 @@ const AdminProfile = () => {
     );
   }
 
-  const user = Profile?.data?.user;
-  // Role ko sahi se access karein
+  // Yahan data extract ho raha hai. 
+  // Agar aapka API response structure alag hai, toh yahan change karein.
+  const user = Profile?.data?.user || Profile?.user || Profile;
   const role = user?.roles?.[0]?.name || "N/A";
 
   return (
@@ -32,52 +38,33 @@ const AdminProfile = () => {
 
         {/* Body */}
         <div className="px-8 pb-10">
-          {/* Profile Section */}
           <div className="flex flex-col md:flex-row md:items-center gap-6 -mt-16 mb-10">
             <div className="w-32 h-32 rounded-full bg-red-600 border-4 border-white text-white text-5xl font-bold flex items-center justify-center shadow-md">
-              {user?.name?.charAt(0) || "A"}
+              {user?.name?.charAt(0)?.toUpperCase() || "A"}
             </div>
             <div className="mt-5 md:mt-16">
-              <h2 className="text-3xl font-bold text-gray-800">{user?.name || "-"}</h2>
+              <h2 className="text-3xl font-bold text-gray-800">{user?.name || "User Name"}</h2>
               <p className="text-red-600 font-medium capitalize">{role}</p>
             </div>
           </div>
 
-          {/* Details Grid */}
+          {/* Details Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            
-            {/* Full Name */}
-            <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase">Full Name</label>
-              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700">
-                {user?.name || "No name available"}
+            {[
+              { label: "Full Name", value: user?.name },
+              { label: "Email Address", value: user?.email },
+              { label: "Phone Number", value: user?.phone },
+              { label: "User Role", value: role },
+            ].map((item, index) => (
+              <div key={index}>
+                <label className="text-xs font-semibold text-gray-500 uppercase">
+                  {item.label}
+                </label>
+                <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700">
+                  {item.value || "Not Available"}
+                </div>
               </div>
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase">Email Address</label>
-              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700">
-                {user?.email || "No email available"}
-              </div>
-            </div>
-
-            {/* Phone */}
-            <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase">Phone Number</label>
-              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700">
-                {user?.phone || "N/A"}
-              </div>
-            </div>
-
-            {/* Role */}
-            <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase">User Role</label>
-              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700 capitalize">
-                {role}
-              </div>
-            </div>
-
+            ))}
           </div>
         </div>
       </div>
