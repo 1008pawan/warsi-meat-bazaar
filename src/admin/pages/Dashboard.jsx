@@ -8,10 +8,16 @@ import {
   Truck,
   IndianRupee,
   Wallet,
+  Eye,
 } from "lucide-react";
 import { useDashboard } from "../../hooks/useAdminDashboard";
+import { useState } from "react";
+import DashboardListDetails from "../ui/DashboardListDetails";
 
 export default function Dashboard() {
+  const [listModal, setListModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
   const { data: dashboard, isLoading, error } = useDashboard();
 
   const stats = [
@@ -106,7 +112,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {stats.map((item) => {
@@ -133,6 +139,146 @@ export default function Dashboard() {
             </div>
           );
         })}
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6">
+        <h2 className="text-xl font-bold mb-5">Monthly Revenue</h2>
+
+        <div className="space-y-4">
+          {dashboard?.monthly_revenue?.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between border border-zinc-200 rounded-xl p-4"
+            >
+              <div>
+                <p className="font-semibold">
+                  {new Date(item.year, item.month - 1).toLocaleString(
+                    "default",
+                    {
+                      month: "long",
+                    },
+                  )}{" "}
+                  {item.year}
+                </p>
+
+                <p className="text-sm text-gray-500">{item.orders} Orders</p>
+              </div>
+
+              <h2 className="text-xl font-bold text-green-600">
+                ₹{Number(item.revenue).toLocaleString()}
+              </h2>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6">
+          <h2 className="text-xl font-bold mb-5">Top Stores</h2>
+
+          <div className="space-y-4">
+            {dashboard?.top_stores?.map((store) => (
+              <div
+                key={store.id}
+                className="flex justify-between items-center border border-zinc-200 rounded-xl p-4 hover:bg-gray-50"
+              >
+                <div>
+                  <h3 className="font-semibold">{store.name}</h3>
+
+                  <p className="text-sm text-gray-500">
+                    {store.city}, {store.state}
+                  </p>
+
+                  <p className="text-xs text-gray-400">
+                    {store.orders_count} Orders
+                  </p>
+                </div>
+
+                <div className="text-right">
+                  <p className="font-bold text-green-600">
+                    ₹{Number(store.total_revenue).toLocaleString()}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    Online ₹{store.online_revenue}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    Offline ₹{store.offline_revenue}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6">
+          <h2 className="text-xl font-bold mb-5">Top Categories</h2>
+
+          <div className="space-y-4">
+            {dashboard?.top_categories?.map((cat) => (
+              <div
+                key={cat.category_id}
+                className="flex justify-between border border-zinc-200 rounded-xl p-4"
+              >
+                <div>
+                  <h3 className="font-semibold">{cat.category_name}</h3>
+
+                  <p className="text-sm text-gray-500">
+                    {cat.units_sold} Units Sold
+                  </p>
+                </div>
+
+                <div className="text-right">
+                  <p className="font-bold text-green-600">
+                    ₹{Number(cat.total_revenue).toLocaleString()}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    Online ₹{cat.online_revenue}
+                  </p>
+
+                  <p className="text-xs text-gray-500">
+                    Offline ₹{cat.offline_revenue}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 p-6 mt-8">
+        <h2 className="text-xl font-bold mb-5">Top Selling Products</h2>
+
+        <div className="space-y-4">
+          {dashboard?.top_products?.map((item) => (
+            <div
+              key={item.product_id}
+              className="border border-zinc-200 rounded-xl p-4"
+            >
+              <div className="flex justify-between">
+                <div>
+                  <h3 className="font-semibold">{item.product?.name}</h3>
+
+                  <p className="text-sm text-gray-500">
+                    Stock : {item.product?.stock}
+                  </p>
+                </div>
+
+                <div className="text-right">
+                  <p className="font-bold">
+                    ₹{Number(item.total_revenue).toLocaleString()}
+                  </p>
+
+                  <p className="text-sm text-gray-500">
+                    Sold : {item.units_sold}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Recent Orders */}
@@ -184,7 +330,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-4 grid-cols-2 gap-4 mt-5">
+              <div className="grid md:grid-cols-5 grid-cols-2 gap-4 mt-5">
                 <div>
                   <p className="text-xs text-gray-500">Customer</p>
                   <p className="font-semibold">
@@ -222,126 +368,19 @@ export default function Dashboard() {
                     {order.type}
                   </span>
                 </div>
-              </div>
 
-              {/* Products */}
-
-              <div className="mt-5">
-                <p className="font-semibold mb-3">Products</p>
-
-                <div className="flex flex-wrap gap-2">
-                  {order.items?.map((item) => (
-                    <div
-                      key={item.id}
-                      className="bg-gray-100 rounded-xl px-3 py-2"
-                    >
-                      <p className="text-sm font-medium">{item.product_name}</p>
-
-                      <p className="text-xs text-gray-500">
-                        Qty : {item.quantity}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-2xl shadow-sm border p-6">
-        <h2 className="text-xl font-bold mb-5">Monthly Revenue</h2>
-
-        <div className="space-y-4">
-          {dashboard?.monthly_revenue?.map((item, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between border rounded-xl p-4"
-            >
-              <div>
-                <p className="font-semibold">
-                  {new Date(item.year, item.month - 1).toLocaleString(
-                    "default",
-                    {
-                      month: "long",
-                    },
-                  )}{" "}
-                  {item.year}
-                </p>
-
-                <p className="text-sm text-gray-500">{item.orders} Orders</p>
-              </div>
-
-              <h2 className="text-xl font-bold text-green-600">
-                ₹{Number(item.revenue).toLocaleString()}
-              </h2>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-2xl shadow-sm border p-6 mt-8">
-        <h2 className="text-xl font-bold mb-5">Top Stores</h2>
-
-        <div className="space-y-4">
-          {dashboard?.top_stores?.map((store) => (
-            <div
-              key={store.id}
-              className="flex justify-between items-center border rounded-xl p-4 hover:bg-gray-50"
-            >
-              <div>
-                <h3 className="font-semibold">{store.name}</h3>
-
-                <p className="text-sm text-gray-500">
-                  {store.city}, {store.state}
-                </p>
-
-                <p className="text-xs text-gray-400">
-                  {store.orders_count} Orders
-                </p>
-              </div>
-
-              <div className="text-right">
-                <p className="font-bold text-green-600">
-                  ₹{Number(store.total_revenue).toLocaleString()}
-                </p>
-
-                <p className="text-xs text-gray-500">
-                  Online ₹{store.online_revenue}
-                </p>
-
-                <p className="text-xs text-gray-500">
-                  Offline ₹{store.offline_revenue}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="bg-white rounded-2xl shadow-sm border p-6 mt-8">
-        <h2 className="text-xl font-bold mb-5">Top Selling Products</h2>
-
-        <div className="space-y-4">
-          {dashboard?.top_products?.map((item) => (
-            <div key={item.product_id} className="border rounded-xl p-4">
-              <div className="flex justify-between">
                 <div>
-                  <h3 className="font-semibold">{item.product?.name}</h3>
+                  <p className="text-xs text-gray-500">Action</p>
 
-                  <p className="text-sm text-gray-500">
-                    Stock : {item.product?.stock}
-                  </p>
-                </div>
-
-                <div className="text-right">
-                  <p className="font-bold">
-                    ₹{Number(item.total_revenue).toLocaleString()}
-                  </p>
-
-                  <p className="text-sm text-gray-500">
-                    Sold : {item.units_sold}
-                  </p>
+                  <button
+                    onClick={() => {
+                      setSelectedOrder(order);
+                      setListModal(true);
+                    }}
+                    className="flex items-center justify-center gap-2 cursor-pointer text-zinc-500 hover:text-blue-500 p-1 bg-zinc-200 rounded-lg"
+                  >
+                    <Eye size={18} />
+                  </button>
                 </div>
               </div>
             </div>
@@ -349,40 +388,15 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border p-6 mt-8">
-        <h2 className="text-xl font-bold mb-5">Top Categories</h2>
-
-        <div className="space-y-4">
-          {dashboard?.top_categories?.map((cat) => (
-            <div
-              key={cat.category_id}
-              className="flex justify-between border rounded-xl p-4"
-            >
-              <div>
-                <h3 className="font-semibold">{cat.category_name}</h3>
-
-                <p className="text-sm text-gray-500">
-                  {cat.units_sold} Units Sold
-                </p>
-              </div>
-
-              <div className="text-right">
-                <p className="font-bold text-green-600">
-                  ₹{Number(cat.total_revenue).toLocaleString()}
-                </p>
-
-                <p className="text-xs text-gray-500">
-                  Online ₹{cat.online_revenue}
-                </p>
-
-                <p className="text-xs text-gray-500">
-                  Offline ₹{cat.offline_revenue}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      {listModal && (
+        <DashboardListDetails
+          order={selectedOrder}
+          onClose={() => {
+            setListModal(false);
+            setSelectedOrder(null);
+          }}
+        />
+      )}
     </div>
   );
 }
