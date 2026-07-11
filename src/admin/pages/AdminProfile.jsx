@@ -1,61 +1,84 @@
-import React, { useState } from "react";
+import React from "react";
+import { useProfile } from "../../hooks/useAdminProfile";
 
 const AdminProfile = () => {
-  const [admin] = useState({
-    name: "Sandeep Vishwakarma",
-    email: "thesandeep8181@gmail.com",
-    phone: "+91 9876543210",
-    role: "Administrator",
-  });
+  const { data: Profile, isLoading, error } = useProfile();
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen text-lg font-semibold">
+        Loading...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen text-red-600 text-lg font-semibold">
+        Failed to load profile.
+      </div>
+    );
+  }
+
+  const user = Profile?.data?.user;
+  // Role ko sahi se access karein
+  const role = user?.roles?.[0]?.name || "N/A";
 
   return (
-    <div className="max-h-screen w-full bg-slate-50 ">
-      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
-        
-        {/* Red Header */}
-        <div className="bg-red-600 h-40 w-full"></div>
+    <div className="w-full min-h-screen bg-gray-100">
+      <div className="w-full bg-white shadow-sm overflow-hidden">
+        {/* Header */}
+        <div className="bg-red-600 h-40"></div>
 
-        {/* Content Section */}
+        {/* Body */}
         <div className="px-8 pb-10">
-          
-          {/* Profile Circle and Name Section */}
-          <div className="flex items-center gap-6 -mt-16 mb-8">
+          {/* Profile Section */}
+          <div className="flex flex-col md:flex-row md:items-center gap-6 -mt-16 mb-10">
             <div className="w-32 h-32 rounded-full bg-red-600 border-4 border-white text-white text-5xl font-bold flex items-center justify-center shadow-md">
-              {admin.name.charAt(0)}
+              {user?.name?.charAt(0) || "A"}
             </div>
-            <div className="mt-16">
-              <h2 className="text-3xl font-bold text-gray-800">{admin.name}</h2>
-              <p className="text-blue-600 font-medium">{admin.role}</p>
+            <div className="mt-5 md:mt-16">
+              <h2 className="text-3xl font-bold text-gray-800">{user?.name || "-"}</h2>
+              <p className="text-red-600 font-medium capitalize">{role}</p>
             </div>
           </div>
 
-          {/* Form Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mt-4">
-            {[
-              { label: "FULL NAME", value: admin.name },
-              { label: "EMAIL ADDRESS", value: admin.email },
-              { label: "PHONE NUMBER", value: admin.phone },
-              { label: "USER ROLE", value: admin.role },
-            ].map((item, idx) => (
-              <div key={idx}>
-                <label className="text-[10px] font-bold text-gray-400 tracking-wider">
-                  {item.label}
-                </label>
-                <input
-                  value={item.value}
-                  readOnly
-                  className="mt-1 w-full border-b border-gray-200 outline-none p-1 text-gray-700 bg-transparent"
-                />
+          {/* Details Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            {/* Full Name */}
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase">Full Name</label>
+              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700">
+                {user?.name || "No name available"}
               </div>
-            ))}
-          </div>
+            </div>
 
-          {/* Edit Button */}
-          {/* <div className="mt-10 flex justify-end">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-2 rounded-md font-semibold transition-all">
-              Edit Profile
-            </button>
-          </div> */}
+            {/* Email */}
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase">Email Address</label>
+              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700">
+                {user?.email || "No email available"}
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase">Phone Number</label>
+              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700">
+                {user?.phone || "N/A"}
+              </div>
+            </div>
+
+            {/* Role */}
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase">User Role</label>
+              <div className="w-full mt-2 border rounded-lg p-3 bg-gray-50 text-gray-700 capitalize">
+                {role}
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
