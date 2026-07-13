@@ -94,7 +94,7 @@ export default function AdminHeader({ setOpen }) {
               <button
                 onClick={() => {
                   setOpenDropdown(false);
-                  navigate("/admin/profile");
+                  navigate("/admin/adminprofile");
                 }}
                 className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-gray-100 cursor-pointer"
               >
