@@ -24,6 +24,7 @@ import AdminProfile from "./admin/pages/AdminProfile";
 import Revenue from "./admin/pages/dashboard/Revenue";
 import Analytics from "./admin/pages/dashboard/Analytics";
 import AllOrders from "./admin/pages/AllOrders";
+import ManageStore from "./admin/pages/ManageStore";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
           <Route path="analytics" element={<Analytics />} />
           <Route path="revenue" element={<Revenue />} />
           <Route path="allorders" element={<AllOrders />} />
+          <Route path="stores" element={<ManageStore />} />
         </Route>
       </Routes>
     </>
