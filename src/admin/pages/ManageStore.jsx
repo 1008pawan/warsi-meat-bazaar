@@ -1,13 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Eye, Edit, Trash2, Star, Store } from "lucide-react";
 import { useStores } from "../../hooks/useStores";
 import Pagination from "../ui/Pagination";
+import { STORAGE_URL } from "../../components/config/publicApi";
+import Info from "../ui/Info";
+import StoreDetailsModal from "../ui/StoreDetailsModal";
 
 const ManageStore = () => {
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [storeStatus, setStoreStatus] = useState("");
   const [search, setSearch] = useState("");
+
+  const [viewStore, setViewStore] = useState(null);
+  const [openView, setOpenView] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearchQuery(search);
+      setPage(1);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
 
   const {
     data: stores,
@@ -17,75 +34,120 @@ const ManageStore = () => {
     page,
     status,
     storeStatus,
-    search,
+    search: searchQuery,
     perPage: 15,
   });
+
+  if (isLoading) {
+    return (
+      <div className="grid lg:grid-cols-2 gap-6">
+        {[1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className="h-[420px] rounded-2xl bg-gray-200 animate-pulse"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-xl p-10 text-center">
+        <h2 className="text-xl font-semibold text-red-600">
+          Failed to load stores
+        </h2>
+      </div>
+    );
+  }
+
+  {
+    stores?.data?.length === 0 && (
+      <div className="col-span-full flex flex-col items-center justify-center py-20">
+        <Store size={70} className="text-gray-300" />
+        <h2 className="mt-4 text-xl font-semibold">No Stores Found</h2>
+        <p className="text-gray-500">
+          There are no stores matching your filters.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Stores</h2>
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          {/* Title */}
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Stores</h2>
+            <p className="text-sm text-gray-500">
+              Manage all registered stores
+            </p>
+          </div>
 
-          <input
-            type="text"
-            placeholder="Search Store..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            className="border rounded-xl px-4 py-2"
-          />
+          {/* Filters */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+            {/* Search */}
+            <input
+              type="text"
+              placeholder="Search Store..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              className="w-full sm:w-72 rounded-xl border px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+            />
 
-          <select
-            value={status}
-            onChange={(e) => {
-              setStatus(e.target.value);
-              setPage(1);
-            }}
-            className="border rounded-xl px-4 py-2"
-          >
-            <option value="">All Approval</option>
+            {/* Approval Status */}
+            <select
+              value={status}
+              onChange={(e) => {
+                if (e.key === "Enter") {
+                  setSearchQuery(search);
+                  setPage(1);
+                }
+              }}
+              className="w-full sm:w-44 rounded-xl border px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+            >
+              <option value="">All Approval</option>
+              <option value="approved">Approved</option>
+              <option value="pending">Pending</option>
+              <option value="rejected">Rejected</option>
+            </select>
 
-            <option value="approved">Approved</option>
-
-            <option value="pending">Pending</option>
-
-            <option value="rejected">Rejected</option>
-          </select>
-
-          <select
-            value={storeStatus}
-            onChange={(e) => {
-              setStoreStatus(e.target.value);
-              setPage(1);
-            }}
-            className="border rounded-xl px-4 py-2"
-          >
-            <option value="">All Store Status</option>
-
-            <option value="open">Open</option>
-
-            <option value="closed">Closed</option>
-          </select>
+            {/* Store Status */}
+            <select
+              value={storeStatus}
+              onChange={(e) => {
+                setStoreStatus(e.target.value);
+                setPage(1);
+              }}
+              className="w-full sm:w-44 rounded-xl border px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+            >
+              <option value="">All Store Status</option>
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
           {stores?.data?.map((store) => (
             <div
               key={store.id}
-              className="bg-white rounded-2xl shadow border overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl border border-zinc-300 overflow-hidden"
             >
               {/* Banner */}
               <div className="relative">
                 <img
-                  src={store.banner}
+                  src={`${STORAGE_URL}/${store.banner}`}
                   alt={store.name}
                   className="h-48 w-full object-cover"
                 />
 
                 <img
-                  src={store.logo}
+                  src={`${STORAGE_URL}/${store.logo}`}
                   alt={store.name}
                   className="absolute left-6 -bottom-10 h-20 w-20 rounded-xl border-4 border-white object-cover bg-white"
                 />
@@ -142,7 +204,14 @@ const ManageStore = () => {
                 <div className="mt-5">
                   <p className="text-sm text-gray-500">Address</p>
 
-                  <p className="font-medium">{store.address}</p>
+                  <a
+                    href={`https://www.google.com/maps?q=${store.latitude},${store.longitude}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-red-600 text-sm hover:underline"
+                  >
+                    <p className="font-medium">{store.address}</p>
+                  </a>
                 </div>
 
                 <div className="mt-6 flex justify-between items-center">
@@ -151,7 +220,13 @@ const ManageStore = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <button className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200">
+                    <button
+                      onClick={() => {
+                        setViewStore(store);
+                        setOpenView(true);
+                      }}
+                      className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 cursor-pointer"
+                    >
                       <Eye size={18} />
                     </button>
 
@@ -176,16 +251,19 @@ const ManageStore = () => {
           perPage={stores?.meta?.per_page}
           onPageChange={setPage}
         />
+
+        {openView && (
+          <StoreDetailsModal
+            store={viewStore}
+            onClose={() => {
+              setOpenView(false);
+              setViewStore(null);
+            }}
+          />
+        )}
       </div>
-      ;
     </div>
   );
 };
 
-const Info = ({ title, value }) => (
-  <div className="bg-gray-50 rounded-xl p-3">
-    <p className="text-xs text-gray-500">{title}</p>
-    <p className="font-semibold">{value || "-"}</p>
-  </div>
-);
 export default ManageStore;
