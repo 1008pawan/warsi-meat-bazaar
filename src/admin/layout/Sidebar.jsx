@@ -36,16 +36,15 @@ const menus = [
         path: "/admin/analytics",
       },
       {
-        name: "Allorders",
+        name: "All Orders",
         path: "/admin/allorders",
       },
     ],
   },
 
-  { name: "Categories", icon: Boxes, path: "/admin/categories" },
+  { name: "Stores", icon: Store, path: "/admin/stores" },
   { name: "Products", icon: Package, path: "/admin/products" },
   { name: "Orders", icon: ShoppingCart, path: "/admin/orders" },
-  { name: "Stores", icon: Store, path: "/admin/stores" },
   { name: "Customers", icon: Users, path: "/admin/customers" },
   { name: "Coupons", icon: TicketPercent, path: "/admin/coupons" },
   { name: "Reports", icon: BarChart3, path: "/admin/reports" },
