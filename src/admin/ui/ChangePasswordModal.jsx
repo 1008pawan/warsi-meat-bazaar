@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useChangePassword } from "../../hooks/useChangePassword";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ChangePasswordModal({ isOpen, onClose }) {
   const { mutate, isPending } = useChangePassword();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const initialState = {
     current_password: "",
@@ -64,40 +69,46 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevents default page reload on form submit
+    e.preventDefault();
 
     if (
       !formData.current_password ||
       !formData.new_password ||
       !formData.new_password_confirmation
     ) {
-      return alert("Please fill all fields.");
+      return toast.error("Please fill all fields.");
     }
 
     if (formData.new_password !== formData.new_password_confirmation) {
-      return alert("Password confirmation does not match.");
+      return toast.error("Password confirmation does not match.");
     }
 
     mutate(formData, {
       onSuccess: (res) => {
-        alert(res.message || "Password updated successfully.");
+        toast.success(res.message || "Password updated successfully.");
         handleClose();
+
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminUser");
+
+        queryClient.clear();
+
+        navigate("/admin/login", { replace: true });
       },
       onError: (err) => {
         console.log(err.response?.data);
 
         if (err.response?.data?.errors) {
           const firstError = Object.values(err.response.data.errors)[0][0];
-          alert(firstError);
+          toast.error(firstError);
           return;
         }
 
-        alert(err.response?.data?.message || "Something went wrong.");
+        toast.error(err.response?.data?.message || "Something went wrong.");
       },
     });
   };
 
-  // Input configuration to keep JSX clean and prevent re-render focus issues
   const inputFields = [
     {
       label: "Current Password",
@@ -165,7 +176,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     type="button"
                     onClick={() => togglePassword(visibleKey)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 transition-colors hover:text-black"
-                    tabIndex="-1" // Prevents tab from focusing the eye icon, improving keyboard navigation
+                    tabIndex="-1"
                   >
                     {showPassword[visibleKey] ? (
                       <FaEyeSlash size={18} />
