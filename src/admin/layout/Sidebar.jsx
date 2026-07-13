@@ -12,6 +12,7 @@ import {
   X,
   ChevronDown,
   ChevronRight,
+  Bike,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -43,7 +44,7 @@ const menus = [
   },
 
   { name: "Stores", icon: Store, path: "/admin/stores" },
-  { name: "Products", icon: Package, path: "/admin/products" },
+  { name: "Delivery Agent", icon: Bike, path: "/admin/manege-delivery-agent" },
   { name: "Orders", icon: ShoppingCart, path: "/admin/orders" },
   { name: "Customers", icon: Users, path: "/admin/customers" },
   { name: "Coupons", icon: TicketPercent, path: "/admin/coupons" },

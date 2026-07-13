@@ -1,11 +1,11 @@
-// import {
-//   ResponsiveContainer,
-//   PieChart,
-//   Pie,
-//   Tooltip,
-//   Cell,
-//   Legend,
-// } from "recharts";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Tooltip,
+  Cell,
+  Legend,
+} from "recharts";
 
 export function OnlineNOfflineChart ({ data = [] }) {
   const online = data.reduce(

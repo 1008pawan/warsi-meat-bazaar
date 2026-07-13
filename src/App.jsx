@@ -25,6 +25,7 @@ import Revenue from "./admin/pages/dashboard/Revenue";
 import Analytics from "./admin/pages/dashboard/Analytics";
 import AllOrders from "./admin/pages/AllOrders";
 import ManageStore from "./admin/pages/ManageStore";
+import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent"
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="revenue" element={<Revenue />} />
           <Route path="allorders" element={<AllOrders />} />
           <Route path="stores" element={<ManageStore />} />
+          <Route path="manege-delivery-agent" element={<DeliveryAgent />} />
         </Route>
       </Routes>
     </>
