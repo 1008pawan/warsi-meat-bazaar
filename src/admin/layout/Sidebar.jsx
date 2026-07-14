@@ -89,7 +89,7 @@ export default function Sidebar({ open, setOpen }) {
         {/* Header */}
         <div className="h-16 border-b border-white flex items-center justify-between px-5">
           <div>
-            <h2 className="text-2xl font-bold text-white">Warsi Admin</h2>
+            <h2 className="text-2xl font-bold text-white">Warsi Meat Bazaar</h2>
 
             <p className="text-xs font-semibold text-white">ADMIN PANEL</p>
           </div>
