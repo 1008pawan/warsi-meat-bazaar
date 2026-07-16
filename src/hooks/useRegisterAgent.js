@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { getDeliveryAgent } from "../api/registerDekiveryAgent";
+import { useMutation } from "@tanstack/react-query";
+import { registerAgent } from "../api/registerDekiveryAgent";
 
 export const useRegisterAgent = () => {
-    return useQuery({
-        queryKey: ["RegisterDeliveryAgent"],
-        queryFn: getRegisterAgent,
+    return useMutation({
+       // 'registerAgent' ki jagah 'getDeliveryAgent' likhein
+       mutationFn: registerAgent,
     });
 };

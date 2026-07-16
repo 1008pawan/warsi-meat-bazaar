@@ -5,6 +5,7 @@ import {
   FaIdCard, FaMapMarkerAlt, FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaImage
 } from "react-icons/fa";
 import { STORAGE_URL } from "../../../components/config/publicApi"
+import { useNavigate } from 'react-router-dom';
 
 const DeliveryAgent = () => {
   const { data: apiResponse, isLoading, isError } = useDeliveryAgent();
@@ -13,6 +14,8 @@ const DeliveryAgent = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const agents = apiResponse?.data || [];
+
+  const navigate = useNavigate();
 
   
   const formatDate = (dateString) => {
@@ -49,7 +52,7 @@ const DeliveryAgent = () => {
   }
 
   return (
-    <div className="mx-auto max-w-7xl p-4 sm:p-6 lg:p-8">
+    <div className="mx-auto max-w-7xl p-2 sm:p-2 lg:p-2">
       
       
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -59,9 +62,15 @@ const DeliveryAgent = () => {
             Manage and view all details of your active delivery personnel.
           </p>
         </div>
-        <div className="inline-flex items-center rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 border border-blue-100 shadow-sm self-start sm:self-auto">
+        {/* <div className="inline-flex items-center rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 border border-blue-100 shadow-sm self-start sm:self-auto">
           Total Agents: {apiResponse?.meta?.total || 0}
-        </div>
+        </div> */}
+       <button
+      onClick={() => navigate("/admin/register-delivery-agent")}
+      className="inline-flex items-center rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 border border-blue-100 shadow-sm hover:bg-blue-100 transition"
+    >
+      Register Agents
+    </button>
       </div>
 
       
