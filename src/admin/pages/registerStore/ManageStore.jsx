@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Eye, Edit, Trash2, Star, Store } from "lucide-react";
-import { useStores } from "../../hooks/useStores";
-import Pagination from "../ui/Pagination";
-import { STORAGE_URL } from "../../components/config/publicApi";
-import Info from "../ui/Info";
-import StoreDetailsModal from "../ui/StoreDetailsModal";
+import { useStores } from "../../../hooks/useStores";
+import Pagination from "../../ui/Pagination";
+import { STORAGE_URL } from "../../../components/config/publicApi";
+import Info from "../../ui/Info";
+import StoreDetailsModal from "../../ui/StoreDetailsModal";
+import { useNavigate } from "react-router-dom";
+import { useDeleteStore } from "../../../hooks/useDeleteStore";
+import Swal from "sweetalert2";
 
 const ManageStore = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
   const [storeStatus, setStoreStatus] = useState("");
@@ -37,6 +41,26 @@ const ManageStore = () => {
     search: searchQuery,
     perPage: 15,
   });
+
+  const { mutate: deleteStoreMutation, isPending } = useDeleteStore();
+
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Delete Store?",
+      text: "Are you sure you want to delete this store?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      deleteStoreMutation(id);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -96,7 +120,7 @@ const ManageStore = () => {
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full sm:w-72 rounded-xl border px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+              className="w-full sm:w-72 rounded-xl border border-zinc-500 px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
             />
 
             {/* Approval Status */}
@@ -108,7 +132,7 @@ const ManageStore = () => {
                   setPage(1);
                 }
               }}
-              className="w-full sm:w-44 rounded-xl border px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+              className="w-full sm:w-44 rounded-xl border border-zinc-500 px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
             >
               <option value="">All Approval</option>
               <option value="approved">Approved</option>
@@ -123,12 +147,19 @@ const ManageStore = () => {
                 setStoreStatus(e.target.value);
                 setPage(1);
               }}
-              className="w-full sm:w-44 rounded-xl border px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+              className="w-full sm:w-44 rounded-xl border border-zinc-500 px-4 py-2.5 outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
             >
               <option value="">All Store Status</option>
               <option value="open">Open</option>
               <option value="closed">Closed</option>
             </select>
+
+            <button
+              onClick={() => navigate("/admin/stores-register")}
+              className="bg-red-600 hover:bg-red-700 rounded-xl text-white px-4 py-2 cursor-pointer"
+            >
+              Register Store
+            </button>
           </div>
         </div>
 
@@ -230,11 +261,15 @@ const ManageStore = () => {
                       <Eye size={18} />
                     </button>
 
-                    <button className="p-2 rounded-lg bg-green-100 text-green-600 hover:bg-green-200">
+                    <button  className="p-2 rounded-lg cursor-pointer bg-green-100 text-green-600 hover:bg-green-200">
                       <Edit size={18} />
                     </button>
 
-                    <button className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200">
+                    <button
+                      onClick={() => handleDelete(store.id)}
+                      disabled={isPending}
+                      className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 cursor-pointer"
+                    >
                       <Trash2 size={18} />
                     </button>
                   </div>

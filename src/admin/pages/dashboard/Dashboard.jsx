@@ -202,11 +202,11 @@ export default function Dashboard() {
                   </p>
 
                   <p className="text-xs text-gray-500">
-                    Online ₹{store.online_revenue}
+                    Online ₹{store.online_revenue || "0"}
                   </p>
 
                   <p className="text-xs text-gray-500">
-                    Offline ₹{store.offline_revenue}
+                    Offline ₹{store.offline_revenue || "0"}
                   </p>
                 </div>
               </div>

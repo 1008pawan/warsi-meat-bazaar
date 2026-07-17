@@ -41,15 +41,15 @@ export default function AdminHeader({ setOpen }) {
       <div className="flex items-center gap-4">
         <button
           onClick={() => setOpen(true)}
-          className="rounded-lg p-2 hover:bg-gray-100 lg:hidden"
+          className="rounded-lg p-2 hover:bg-gray-100 md:hidden"
         >
           <Menu size={22} />
         </button>
 
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{user?.name}</h1>
 
-          <p className="text-sm text-gray-500">Welcome back Admin panel 👋</p>
+          <p className="text-sm text-gray-500">{user?.roles?.[0]?.name}</p>
         </div>
       </div>
 
@@ -72,13 +72,13 @@ export default function AdminHeader({ setOpen }) {
               className="h-10 w-10 rounded-full object-cover"
             />
 
-            <div className="hidden text-left md:block">
+            {/* <div className="hidden text-left md:block">
               <h4 className="font-semibold text-gray-900">{user?.name}</h4>
 
               <p className="text-xs capitalize text-gray-500">
                 {user?.roles?.[0]?.name}
               </p>
-            </div>
+            </div> */}
 
             <ChevronDown
               size={18}

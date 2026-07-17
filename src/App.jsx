@@ -24,8 +24,9 @@ import AdminProfile from "./admin/pages/AdminProfile";
 import Revenue from "./admin/pages/dashboard/Revenue";
 import Analytics from "./admin/pages/dashboard/Analytics";
 import AllOrders from "./admin/pages/AllOrders";
-import ManageStore from "./admin/pages/ManageStore";
-import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent"
+import ManageStore from "./admin/pages/registerStore/ManageStore";
+import StoreRegister from "./admin/pages/registerStore/StoreRegister";
+import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path="revenue" element={<Revenue />} />
           <Route path="allorders" element={<AllOrders />} />
           <Route path="stores" element={<ManageStore />} />
+          <Route path="stores-register" element={<StoreRegister />} />
           <Route path="manege-delivery-agent" element={<DeliveryAgent />} />
         </Route>
       </Routes>

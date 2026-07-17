@@ -315,56 +315,31 @@ const DashboardListDetails = ({ order, onClose }) => {
                 <thead className="bg-blue-600 text-white">
                   <tr>
                     <th className="px-5 py-4 text-left">Product</th>
-
                     <th className="px-5 py-4 text-left">Price</th>
-
                     <th className="px-5 py-4 text-left">Qty</th>
-
-                    <th className="px-5 py-4 text-left">Unit</th>
-
                     <th className="px-5 py-4 text-left">Total</th>
-
-                    <th className="px-5 py-4 text-left">Product ID</th>
-
-                    <th className="px-5 py-4 text-left">Variant ID</th>
-
                     <th className="px-5 py-4 text-left">Weight</th>
-
-                    <th className="px-5 py-4 text-left">Variant Attributes</th>
+                    <th className="px-5 py-4 text-left">Unit</th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {order.items?.map((item) => (
+                  {(order.items ?? []).map((item) => (
                     <tr
                       key={item.id}
-                      className="border-b border-zinc-300 hover:bg-blue-50 transition"
+                      className="border-b border-zinc-300 hover:bg-blue-50"
                     >
-                      <td className="px-5 py-4 font-medium">
-                        {item.product_name}
-                      </td>
+                      <td className="px-5 py-4">{item.product_name ?? "-"}</td>
 
-                      <td className="px-5 py-4">₹{item.price}</td>
+                      <td className="px-5 py-4">₹{item.price ?? 0}</td>
 
-                      <td className="px-5 py-4">{item.quantity}</td>
+                      <td className="px-5 py-4">{item.quantity ?? "-"}</td>
 
-                      <td className="px-5 py-4">{item.unit}</td>
+                      <td className="px-5 py-4">₹{item.subtotal ?? 0}</td>
 
-                      <td className="px-5 py-4 font-semibold text-green-600">
-                        ₹{item.subtotal}
-                      </td>
+                      <td className="px-5 py-4">{item.weight ?? "-"}</td>
 
-                      <td className="px-5 py-4">{item.product_id}</td>
-
-                      <td className="px-5 py-4">
-                        {item.product_variant_id || "-"}
-                      </td>
-
-                      <td className="px-5 py-4">{item.weight || "-"}</td>
-
-                      <td className="px-5 py-4">
-                        {item.variant_attributes || "-"}
-                      </td>
+                      <td className="px-5 py-4">{item.unit ?? "-"}</td>
                     </tr>
                   ))}
                 </tbody>
