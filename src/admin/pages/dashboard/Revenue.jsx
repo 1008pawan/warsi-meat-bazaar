@@ -62,7 +62,7 @@ const Revenue = () => {
           >
             <div className="relative h-[300px] overflow-hidden">
               <img
-                src={`${STORAGE_URL}banners/Ip8XRI1HYuwg73sClwcw4tQYMeKyg4m03nazcE7Q.png`}
+                src={`${STORAGE_URL}/banners/Ip8XRI1HYuwg73sClwcw4tQYMeKyg4m03nazcE7Q.png`}
                 alt="Store Banner"
                 className="h-full w-full object-cover"
               />

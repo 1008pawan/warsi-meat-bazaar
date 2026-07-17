@@ -160,7 +160,7 @@ export default function AllOrders() {
                       setSelectedOrder(order);
                       setListModal(true);
                     }}
-                    className="flex items-center justify-center gap-2 cursor-pointer text-zinc-500 hover:text-blue-500 p-1 px-2 bg-zinc-200 rounded-lg"
+                    className="flex items-center justify-center gap-2 cursor-pointer text-blue-500 hover:text-blue-600 p-1 px-2 bg-blue-200 rounded-lg"
                   >
                     <Eye size={18} />
                   </button>

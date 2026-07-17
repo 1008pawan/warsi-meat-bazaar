@@ -13,6 +13,7 @@ import {
   ChevronDown,
   ChevronRight,
   Bike,
+  Layers,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -45,6 +46,7 @@ const menus = [
 
   { name: "Stores", icon: Store, path: "/admin/stores" },
   { name: "Delivery Agent", icon: Bike, path: "/admin/manege-delivery-agent" },
+  { name: "Category", icon: Layers, path: "/admin/category" },
   { name: "Orders", icon: ShoppingCart, path: "/admin/orders" },
   { name: "Customers", icon: Users, path: "/admin/customers" },
   { name: "Coupons", icon: TicketPercent, path: "/admin/coupons" },
@@ -65,6 +67,7 @@ export default function Sidebar({ open, setOpen }) {
 
     navigate("/admin/login", { replace: true });
   };
+
   return (
     <>
       {/* Mobile Overlay */}

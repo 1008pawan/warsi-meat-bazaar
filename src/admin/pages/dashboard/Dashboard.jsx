@@ -25,37 +25,37 @@ export default function Dashboard() {
       title: "Total Users",
       value: dashboard?.stats?.total_users ?? 0,
       icon: Users,
-      color: "bg-blue-600",
+      color: "bg-red-600",
     },
     {
       title: "Vendors",
       value: dashboard?.stats?.total_vendors ?? 0,
       icon: UserCheck,
-      color: "bg-purple-600",
+      color: "bg-red-600",
     },
     {
       title: "Customers",
       value: dashboard?.stats?.total_customers ?? 0,
       icon: Users,
-      color: "bg-black",
+      color: "bg-red-600",
     },
     {
       title: "Delivery Agents",
       value: dashboard?.stats?.total_delivery_agents ?? 0,
       icon: Truck,
-      color: "bg-orange-500",
+      color: "bg-red-600",
     },
     {
       title: "Stores",
       value: dashboard?.stats?.total_stores ?? 0,
       icon: Store,
-      color: "bg-green-600",
+      color: "bg-red-600",
     },
     {
       title: "Products",
       value: dashboard?.stats?.total_products ?? 0,
       icon: Package,
-      color: "bg-yellow-500",
+      color: "bg-red-600",
     },
     {
       title: "Orders",
@@ -67,31 +67,31 @@ export default function Dashboard() {
       title: "Pending Orders",
       value: dashboard?.stats?.pending_orders ?? 0,
       icon: ShoppingCart,
-      color: "bg-amber-500",
+      color: "bg-red-500",
     },
     {
       title: "Online Revenue",
       value: `₹${dashboard?.stats?.online_revenue ?? 0}`,
       icon: IndianRupee,
-      color: "bg-emerald-600",
+      color: "bg-red-600",
     },
     {
       title: "Offline Revenue",
       value: `₹${dashboard?.stats?.offline_revenue ?? 0}`,
       icon: Wallet,
-      color: "bg-indigo-600",
+      color: "bg-red-600",
     },
     {
       title: "Total Revenue",
       value: `₹${dashboard?.stats?.total_revenue ?? 0}`,
       icon: IndianRupee,
-      color: "bg-teal-600",
+      color: "bg-red-600",
     },
     {
       title: "Commission",
       value: `₹${dashboard?.stats?.total_commission ?? 0}`,
       icon: Wallet,
-      color: "bg-pink-600",
+      color: "bg-red-600",
     },
   ];
 
@@ -115,6 +115,8 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
+      <h2 className="text-3xl font-bold text-gray-900">Dashboard</h2>
+
       {/* Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {stats.map((item) => {

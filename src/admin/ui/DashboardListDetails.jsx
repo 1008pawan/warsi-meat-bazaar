@@ -188,7 +188,6 @@ const DashboardListDetails = ({ order, onClose }) => {
           </section>
 
           {/* Store */}
-
           <section>
             <h3 className="text-xl font-bold border-l-4 border-orange-500 pl-3 mb-5">
               Store Details

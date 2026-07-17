@@ -26,8 +26,11 @@ import Analytics from "./admin/pages/dashboard/Analytics";
 import AllOrders from "./admin/pages/AllOrders";
 import ManageStore from "./admin/pages/registerStore/ManageStore";
 import StoreRegister from "./admin/pages/registerStore/StoreRegister";
+// import StoreUpdate from "./admin/pages/registerStore/StoreUpdate";
 import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent";
-import RegisterDeliveryAgent from "./admin/pages/ManageDeliveryAgent/RegisterDeliveryAgent"
+import RegisterDeliveryAgent from "./admin/pages/ManageDeliveryAgent/RegisterDeliveryAgent";
+import Category from "./admin/pages/category/Category";
+import SubCategory from "./admin/pages/category/SubCategory";
 
 function App() {
   return (
@@ -62,9 +65,17 @@ function App() {
           <Route path="allorders" element={<AllOrders />} />
           <Route path="stores" element={<ManageStore />} />
           <Route path="stores-register" element={<StoreRegister />} />
+          {/* <Route path="stores-update/:id" element={<StoreUpdate />} /> */}
           <Route path="manege-delivery-agent" element={<DeliveryAgent />} />
-          <Route path="register-delivery-agent" element={<RegisterDeliveryAgent />} />
-
+          <Route path="category" element={<Category />} />
+          <Route
+            path="register-delivery-agent"
+            element={<RegisterDeliveryAgent />}
+          />
+          <Route
+            path="categories/:id/subcategories"
+            element={<SubCategory />}
+          />
         </Route>
       </Routes>
     </>

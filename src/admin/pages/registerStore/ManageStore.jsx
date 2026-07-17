@@ -261,7 +261,10 @@ const ManageStore = () => {
                       <Eye size={18} />
                     </button>
 
-                    <button  className="p-2 rounded-lg cursor-pointer bg-green-100 text-green-600 hover:bg-green-200">
+                    <button
+                      // onClick={() => navigate(`/admin/stores/update/${id}`)}
+                      className="p-2 rounded-lg cursor-pointer bg-green-100 text-green-600 hover:bg-green-200"
+                    >
                       <Edit size={18} />
                     </button>
 
