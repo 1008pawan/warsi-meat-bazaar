@@ -203,7 +203,7 @@ const RegisterDeliveryAgent = () => {
           <div style={styles.col}>
             <div style={styles.formGroup}>
               <label style={styles.label}>Phone Number:</label>
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={styles.input} placeholder="Enter 10-digit number" />
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={styles.input} placeholder="Enter 10-digit number" maxLength={10} />
             </div>
           </div>
 
