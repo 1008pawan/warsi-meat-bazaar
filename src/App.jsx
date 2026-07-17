@@ -24,9 +24,17 @@ import AdminProfile from "./admin/pages/AdminProfile";
 import Revenue from "./admin/pages/dashboard/Revenue";
 import Analytics from "./admin/pages/dashboard/Analytics";
 import AllOrders from "./admin/pages/AllOrders";
+<<<<<<< HEAD
 import ManageStore from "./admin/pages/registerStore/ManageStore";
 import StoreRegister from "./admin/pages/registerStore/StoreRegister";
 import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent";
+=======
+import ManageStore from "./admin/pages/ManageStore";
+import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent"
+import RegisterDeliveryAgent from "./admin/pages/ManageDeliveryAgent/RegisterDeliveryAgent";
+
+
+>>>>>>> 20e9833c5fd844c4ac8c5ddb626c0f35172431f7
 
 function App() {
   return (
@@ -62,6 +70,8 @@ function App() {
           <Route path="stores" element={<ManageStore />} />
           <Route path="stores-register" element={<StoreRegister />} />
           <Route path="manege-delivery-agent" element={<DeliveryAgent />} />
+          <Route path="register-delivery-agent" element={<RegisterDeliveryAgent />} />
+
         </Route>
       </Routes>
     </>
