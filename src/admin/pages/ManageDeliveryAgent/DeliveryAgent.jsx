@@ -67,7 +67,7 @@ const DeliveryAgent = () => {
         </div> */}
        <button
       onClick={() => navigate("/admin/register-delivery-agent")}
-      className="inline-flex items-center rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 border border-blue-100 shadow-sm hover:bg-blue-100 transition"
+      className="inline-flex items-center rounded-lg bg-yellow-400 px-4 py-2 text-sm font-semibold text--700 border border-blue-100 shadow-sm hover:bg-yellow-300 transition"
     >
       Register Agents
     </button>
@@ -85,9 +85,9 @@ const DeliveryAgent = () => {
               className="flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md hover:border-blue-200"
             >
               
-              <div className="flex items-start justify-between border-b p-4 sm:p-5 bg-gray-50/50">
+              <div className="flex items-start justify-between border-b p-4 sm:p-5 bg-red-600">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-blue-100 text-lg sm:text-xl font-bold text-blue-600 uppercase shadow-sm border border-blue-200">
+                  <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-white text-lg sm:text-xl font-bold text-red-600 uppercase shadow-sm border border-yellow-200">
                     {user?.name?.charAt(0) || "A"}
                   </div>
                   <div className="min-w-0">
@@ -96,29 +96,29 @@ const DeliveryAgent = () => {
                     </h3>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1">
                       <div className="flex items-center gap-1.5 shrink-0">
-                        <span className={`h-2.5 w-2.5 rounded-full ${isAvailable ? "bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.5)]" : "bg-red-500"}`}></span>
-                        <span className="text-xs font-medium text-gray-600">
+                        <span className={`h-2.5 w-2.5 rounded-full ${isAvailable ? "bg-yellow-400 shadow-[0_0_5px_rgba(34,197,94,0.5)]" : "bg-red-500"}`}></span>
+                        <span className="text-xs font-medium text-white">
                           {isAvailable ? "Available" : "Offline"}
                         </span>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         {user?.status === 'active' ? (
-                           <FaCheckCircle className="text-green-500 text-xs" title="Account Active" />
+                           <FaCheckCircle className="text-yellow-400 text-xs" title="Account Active" />
                         ) : (
                            <FaTimesCircle className="text-red-500 text-xs" title="Account Inactive" />
                         )}
-                        <span className="text-xs text-gray-500 capitalize">{user?.status}</span>
+                        <span className="text-xs text-white capitalize">{user?.status}</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex flex-col items-end gap-2 shrink-0">
-                  <div className="flex items-center gap-1 rounded-md bg-yellow-100 px-2 py-1 text-sm font-bold text-yellow-700">
-                    <FaStar size={14} className="text-yellow-500" />
+                  <div className="flex items-center gap-1 rounded-md bg-yellow-400 px-2 py-1 text-sm font-bold text--700">
+                    <FaStar size={14} className="text--500" />
                     {agent.rating}
                   </div>
-                  <span className="text-[10px] text-gray-400 font-medium">ID: #{agent.id}</span>
+                  <span className="text-[10px] text-white font-medium">ID: #{agent.id}</span>
                 </div>
               </div>
 
