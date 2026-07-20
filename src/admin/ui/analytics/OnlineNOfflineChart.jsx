@@ -1,13 +1,6 @@
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Tooltip,
-  Cell,
-  Legend,
-} from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Tooltip, Cell, Legend } from "recharts";
 
-export function OnlineNOfflineChart ({ data = [] }) {
+export function OnlineNOfflineChart({ data = [] }) {
   const online = data.reduce(
     (sum, item) => sum + Number(item.online_earning),
     0,

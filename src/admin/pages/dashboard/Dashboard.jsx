@@ -13,8 +13,10 @@ import {
 import { useDashboard } from "../../../hooks/useAdminDashboard";
 import { useState } from "react";
 import DashboardListDetails from "../../ui/DashboardListDetails";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [listModal, setListModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
@@ -152,7 +154,8 @@ export default function Dashboard() {
           {dashboard?.monthly_revenue?.map((item, index) => (
             <div
               key={index}
-              className="flex items-center justify-between border border-zinc-200 rounded-xl p-4"
+              onClick={() => navigate("/admin/revenue")}
+              className="flex items-center justify-between border border-zinc-200 rounded-xl p-4 cursor-pointer"
             >
               <div>
                 <p className="font-semibold">

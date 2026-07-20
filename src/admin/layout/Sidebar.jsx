@@ -15,6 +15,7 @@ import {
   Bike,
   Layers,
   ListPlus,
+  Activity,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -22,29 +23,30 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
 const menus = [
-  {
-    name: "Dashboard",
-    icon: LayoutDashboard,
-    children: [
-      {
-        name: "Overview",
-        path: "/admin",
-      },
-      {
-        name: "Revenue",
-        path: "/admin/revenue",
-      },
-    ],
-  },
+  // {
+  //   name: "Dashboard",
+  //   icon: LayoutDashboard,
+  //   children: [
+  //     {
+  //       name: "Overview",
+  //       path: "/admin",
+  //     },
+  //     {
+  //       name: "Revenue",
+  //       path: "/admin/revenue",
+  //     },
+  //   ],
+  // },
 
+  { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
   { name: "Stores", icon: Store, path: "/admin/stores" },
   { name: "Category", icon: Layers, path: "/admin/category" },
   { name: "All Orders", icon: ListPlus, path: "/admin/allorders" },
   { name: "Offers", icon: TicketPercent, path: "/admin/offers" },
-  { name: "Delivery Agent", icon: Bike, path: "/admin/manege-delivery-agent" },
   { name: "Customers", icon: Users, path: "/admin/customers" },
+  { name: "Delivery Agent", icon: Bike, path: "/admin/manege-delivery-agent" },
   { name: "Reports", icon: BarChart3, path: "/admin/analytics" },
-  { name: "Settings", icon: Settings, path: "/admin/settings" },
+  { name: "Activity Log", icon: Activity, path: "/admin/activity-log" },
 ];
 
 export default function Sidebar({ open, setOpen }) {

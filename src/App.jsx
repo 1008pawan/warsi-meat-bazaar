@@ -26,7 +26,6 @@ import Analytics from "./admin/pages/dashboard/Analytics";
 import AllOrders from "./admin/pages/AllOrders";
 import ManageStore from "./admin/pages/registerStore/ManageStore";
 import StoreRegister from "./admin/pages/registerStore/StoreRegister";
-// import StoreUpdate from "./admin/pages/registerStore/StoreUpdate";
 import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent";
 import RegisterDeliveryAgent from "./admin/pages/ManageDeliveryAgent/RegisterDeliveryAgent";
 import Category from "./admin/pages/category/Category";
@@ -37,6 +36,8 @@ import UpdateCategories from "./admin/pages/category/UpdateCategories";
 import Offers from "./admin/pages/offers/Offers";
 import AddOffers from "./admin/pages/offers/AddOffers";
 import UpdateOffers from "./admin/pages/offers/UpdateOffers";
+import Customers from "./admin/pages/Customers";
+import ActivityLog from "./admin/pages/ActivityLog"
 
 function App() {
   return (
@@ -71,8 +72,9 @@ function App() {
           <Route path="allorders" element={<AllOrders />} />
           <Route path="stores" element={<ManageStore />} />
           <Route path="stores-register" element={<StoreRegister />} />
-          {/* <Route path="stores-update/:id" element={<StoreUpdate />} /> */}
           <Route path="manege-delivery-agent" element={<DeliveryAgent />} />
+          <Route path="customers" element={<Customers />} />
+          <Route path="activity-log" element={<ActivityLog />} />
           <Route path="category" element={<Category />} />
           <Route path="add-categories" element={<AddCategories />} />
           <Route path="add-subcategories/:id" element={<AddSubCategories />} />

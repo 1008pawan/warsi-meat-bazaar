@@ -8,11 +8,14 @@ import {
   MapPin,
   Phone,
   Mail,
+  ArrowLeft,
 } from "lucide-react";
 import { useRevenue } from "../../../hooks/useAdminRevenue";
 import { STORAGE_URL } from "../../../components/config/publicApi";
+import { useNavigate } from "react-router-dom";
 
 const Revenue = () => {
+  const navigate = useNavigate();
   const { data: revenue, isLoading, error } = useRevenue();
 
   if (isLoading) {
@@ -42,7 +45,18 @@ const Revenue = () => {
       {/* Header */}
 
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Revenue Dashboard</h1>
+        <div className="flex items-center gap-2">
+          <span
+            onClick={() => navigate(-1)}
+            className="hover:text-red-500 cursor-pointer"
+          >
+            <ArrowLeft />
+          </span>
+
+          <h1 className="text-3xl font-bold text-gray-900">
+            Revenue Dashboard
+          </h1>
+        </div>
 
         <p className="text-gray-500 mt-1">Store Revenue Overview</p>
       </div>
