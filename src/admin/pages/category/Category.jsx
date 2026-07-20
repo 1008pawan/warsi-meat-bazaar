@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Search, FolderTree } from "lucide-react";
+import { Search, FolderTree, Trash2, Edit } from "lucide-react";
 import { STORAGE_URL } from "../../../components/config/publicApi";
-import { useCategories } from "../../../hooks/useAdminCategories";
+import {
+  useCategories,
+  useDeleteCategory,
+} from "../../../hooks/useAdminCategories";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const CategoryPage = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useCategories();
+  const { mutate: deleteCategoryMutation } = useDeleteCategory();
   const [search, setSearch] = useState("");
 
   const categories =
@@ -14,18 +19,30 @@ const CategoryPage = () => {
       item.name.toLowerCase().includes(search.toLowerCase()),
     ) || [];
 
+  const handleDelete = (e, id) => {
+    e.stopPropagation();
+
+    Swal.fire({
+      title: "Delete Category?",
+      text: "You won't be able to recover this category!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, Delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteCategoryMutation(id);
+      }
+    });
+  };
+
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-10 bg-gray-200 rounded-xl animate-pulse" />
-        <div className="grid lg:grid-cols-2 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              className="h-64 rounded-2xl bg-gray-200 animate-pulse"
-            />
-          ))}
-        </div>
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="h-48 rounded-2xl bg-gray-100 animate-pulse" />
+        ))}
       </div>
     );
   }
@@ -42,19 +59,30 @@ const CategoryPage = () => {
           </p>
         </div>
 
-        <div className="relative w-full md:w-80">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2"
-            size={18}
-          />
+        <div className="md:flex items-center gap-3">
+          <div className="relative w-full md:w-80">
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2"
+              size={18}
+            />
 
-          <input
-            type="text"
-            placeholder="Search category..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-zinc-600 rounded-xl py-3 pl-10 pr-4 outline-none focus:border-red-500"
-          />
+            <input
+              type="text"
+              placeholder="Search categories..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full border border-zinc-600 rounded-xl py-2 pl-10 pr-4 outline-none focus:border-red-500"
+            />
+          </div>
+
+          <div>
+            <button
+              onClick={() => navigate("/admin/add-categories")}
+              className="w-full rounded-xl bg-red-600 px-5 py-2 md:mt-0 mt-2 text-white font-medium hover:bg-red-700 transition cursor-pointer"
+            >
+              Add Categories
+            </button>
+          </div>
         </div>
       </div>
 
@@ -107,7 +135,24 @@ const CategoryPage = () => {
                   </p>
                 </div>
 
-                <FolderTree className="text-red-600" size={32} />
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/admin/category/edit/${category.id}`);
+                    }}
+                    className="cursor-pointer z-10"
+                  >
+                    <Edit className="text-green-600" size={22} />
+                  </button>
+
+                  <button
+                    onClick={(e) => handleDelete(e, category.id)}
+                    className="cursor-pointer z-10"
+                  >
+                    <Trash2 className="text-red-600" size={22} />
+                  </button>
+                </div>
               </div>
 
               {/* Children */}

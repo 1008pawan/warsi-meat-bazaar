@@ -31,6 +31,12 @@ import DeliveryAgent from "./admin/pages/ManageDeliveryAgent/DeliveryAgent";
 import RegisterDeliveryAgent from "./admin/pages/ManageDeliveryAgent/RegisterDeliveryAgent";
 import Category from "./admin/pages/category/Category";
 import SubCategory from "./admin/pages/category/SubCategory";
+import AddCategories from "./admin/pages/category/AddCategories";
+import AddSubCategories from "./admin/pages/category/AddSubCategories";
+import UpdateCategories from "./admin/pages/category/UpdateCategories";
+import Offers from "./admin/pages/offers/Offers";
+import AddOffers from "./admin/pages/offers/AddOffers";
+import UpdateOffers from "./admin/pages/offers/UpdateOffers";
 
 function App() {
   return (
@@ -68,6 +74,15 @@ function App() {
           {/* <Route path="stores-update/:id" element={<StoreUpdate />} /> */}
           <Route path="manege-delivery-agent" element={<DeliveryAgent />} />
           <Route path="category" element={<Category />} />
+          <Route path="add-categories" element={<AddCategories />} />
+          <Route path="add-subcategories/:id" element={<AddSubCategories />} />
+          <Route path="offers" element={<Offers />} />
+          <Route path="add-offer" element={<AddOffers />} />
+          <Route path="update-offer/:id" element={<UpdateOffers />} />
+          <Route
+            path="/admin/category/edit/:id"
+            element={<UpdateCategories />}
+          />
           <Route
             path="register-delivery-agent"
             element={<RegisterDeliveryAgent />}
