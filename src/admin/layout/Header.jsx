@@ -39,17 +39,21 @@ export default function AdminHeader({ setOpen }) {
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between bg-white px-8 shadow-sm">
       {/* Left */}
       <div className="flex items-center gap-4">
-        <button
+        {/* <button
           onClick={() => setOpen(true)}
           className="rounded-lg p-2 hover:bg-gray-100 md:hidden"
         >
           <Menu size={22} />
-        </button>
+        </button> */}
 
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">{user?.name}</h1>
+        <div className="md:ml-0 ml-13">
+          <h1 className="text-2xl font-bold text-gray-900">
+            {user?.name}
+          </h1>
 
-          <p className="text-sm text-gray-500">{user?.roles?.[0]?.name}</p>
+          <p className="text-sm text-gray-500">
+            {user?.roles?.[0]?.name}
+          </p>
         </div>
       </div>
 
@@ -82,9 +86,8 @@ export default function AdminHeader({ setOpen }) {
 
             <ChevronDown
               size={18}
-              className={`transition-transform ${
-                openDropdown ? "rotate-180" : ""
-              }`}
+              className={`transition-transform ${openDropdown ? "rotate-180" : ""
+                }`}
             />
           </button>
 
