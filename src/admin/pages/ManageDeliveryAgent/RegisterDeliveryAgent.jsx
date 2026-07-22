@@ -75,19 +75,19 @@ const RegisterDeliveryAgent = () => {
   };
 
   const styles = {
-    wrapper: {
-      width: '100%',
-      minHeight: '100vh',
-      backgroundColor: '#f4f6f8',
-      padding: '20px',
-      boxSizing: 'border-box',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'flex-start'
-    },
+    // wrapper: {
+    //   width: '100%',
+    //   minHeight: '100vh',
+    //   backgroundColor: '#f4f6f8',
+    //   padding: '20px',
+    //   boxSizing: 'border-box',
+    //   display: 'flex',
+    //   justifyContent: 'center',
+    //   alignItems: 'flex-start'
+    // },
     container: {
       width: '100%', 
-      maxWidth: '750px', 
+      // maxWidth: '100%', 
       margin: '20px auto',
       padding: '25px',
       backgroundColor: '#ffffff',
@@ -161,10 +161,10 @@ const RegisterDeliveryAgent = () => {
       width: '100%', 
       maxWidth: '300px',
       padding: '14px',
-      backgroundColor: isPending ? '#6c757d' : '#007BFF',
+      backgroundColor: isPending ? '#EF4444' : '#EF4444',
       color: 'white',
       border: 'none',
-      borderRadius: '6px',
+      borderRadius: '15px',
       fontSize: '16px',
       fontWeight: 'bold',
       cursor: isPending ? 'not-allowed' : 'pointer',
@@ -193,7 +193,7 @@ const RegisterDeliveryAgent = () => {
   };
 
   return (
-    <div style={styles.wrapper}>
+    // <div style={styles.wrapper}>
       <div style={styles.container}>
         
         <div style={styles.headerWrapper}>
@@ -305,7 +305,7 @@ const RegisterDeliveryAgent = () => {
 
         </form>
       </div>
-    </div>
+    // </div>
   );
 };
 
