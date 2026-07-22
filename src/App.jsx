@@ -38,6 +38,8 @@ import AddOffers from "./admin/pages/offers/AddOffers";
 import UpdateOffers from "./admin/pages/offers/UpdateOffers";
 import Customers from "./admin/pages/Customers";
 import ActivityLog from "./admin/pages/ActivityLog"
+import Product from "./admin/pages/product/Product";
+import AddProduct from "./admin/pages/product/AddProduct";
 
 function App() {
   return (
@@ -76,11 +78,13 @@ function App() {
           <Route path="customers" element={<Customers />} />
           <Route path="activity-log" element={<ActivityLog />} />
           <Route path="category" element={<Category />} />
+          <Route path="product" element={<Product />} />
           <Route path="add-categories" element={<AddCategories />} />
           <Route path="add-subcategories/:id" element={<AddSubCategories />} />
           <Route path="offers" element={<Offers />} />
           <Route path="add-offer" element={<AddOffers />} />
           <Route path="update-offer/:id" element={<UpdateOffers />} />
+          <Route path="add-product" element={<AddProduct />} />
           <Route
             path="/admin/category/edit/:id"
             element={<UpdateCategories />}

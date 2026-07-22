@@ -7,19 +7,29 @@ import { useNavigate } from "react-router-dom";
 const ActivityLogs = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 10;
 
-  const { data, isLoading } = useActivityLogs();
-
+  const { data, isLoading } = useActivityLogs(currentPage, perPage);
   const logs = data?.data || [];
+  const pagination = data?.pagination;
 
   const filteredLogs = logs.filter((item) => {
+    const q = search.toLowerCase();
+
     return (
-      item.action.toLowerCase().includes(search.toLowerCase()) ||
-      (item.user_name || "").toLowerCase().includes(search.toLowerCase()) ||
-      item.module.toLowerCase().includes(search.toLowerCase()) ||
-      item.ip_address.toLowerCase().includes(search.toLowerCase())
+      item.action.toLowerCase().includes(q) ||
+      (item.user_name || "").toLowerCase().includes(q) ||
+      item.module.toLowerCase().includes(q) ||
+      item.ip_address.toLowerCase().includes(q)
     );
   });
+
+  const totalPages = Math.ceil(filteredLogs.length / perPage);
+  const currentLogs = filteredLogs.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage,
+  );
 
   const columns = [
     {
@@ -28,7 +38,7 @@ const ActivityLogs = () => {
       center: true,
       cell: (_, index) => (
         <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-700">
-          {index + 1}
+          {(currentPage - 1) * perPage + index + 1}
         </div>
       ),
     },
@@ -183,11 +193,18 @@ const ActivityLogs = () => {
           columns={columns}
           data={filteredLogs}
           progressPending={isLoading}
-          pagination
           highlightOnHover
           striped
           responsive
           persistTableHead
+          pagination
+          paginationServer
+          paginationTotalRows={pagination?.total || 0}
+          paginationPerPage={pagination?.per_page || perPage}
+          paginationDefaultPage={pagination?.current_page || 1}
+          onChangePage={(page) => {
+            setCurrentPage(page);
+          }}
         />
       </div>
     </div>

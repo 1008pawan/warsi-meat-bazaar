@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getActivityLogs } from "../api/adminActivity";
 
-export const useActivityLogs = () => {
+export const useActivityLogs = (page, per) => {
   return useQuery({
-    queryKey: ["activityLogs"],
-    queryFn: getActivityLogs,
-    staleTime: 1000 * 60 * 5,
+    queryKey: ["activity-logs", page, per],
+    queryFn: () => getActivityLogs(page, per),
+    placeholderData: (previous) => previous,
   });
 };
