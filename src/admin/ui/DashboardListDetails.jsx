@@ -8,11 +8,11 @@ const DashboardListDetails = ({ order, onClose }) => {
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-6xl max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl">
         {/* Header */}
-        <div className="sticky top-0 z-20 bg-white border-b border-zinc-300 px-8 py-5 flex items-center justify-between">
+        <div className="sticky top-0 z-20 bg-red-500 border-b border-zinc-300 px-8 py-5 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800">Order Details</h2>
+            <h2 className="text-2xl font-bold text-white">Order Details</h2>
 
-            <p className="text-gray-500 mt-1">{order.order_number}</p>
+            <p className="text-white mt-1">{order.order_number}</p>
           </div>
 
           <div className="flex items-center gap-4">
@@ -20,9 +20,9 @@ const DashboardListDetails = ({ order, onClose }) => {
               className={`px-4 py-1 rounded-full text-sm font-semibold capitalize
               ${
                 order.status === "delivered"
-                  ? "bg-green-100 text-green-700"
+                 ? "bg-yellow-400 text-black-700"
                   : order.status === "pending"
-                    ? "bg-yellow-100 text-yellow-700"
+                    ?"bg-green-100 text-green-700"
                     : "bg-red-100 text-red-700"
               }`}
             >
@@ -31,7 +31,7 @@ const DashboardListDetails = ({ order, onClose }) => {
 
             <button
               onClick={onClose}
-              className="rounded-xl p-2 hover:bg-gray-100 cursor-pointer"
+              className="rounded-xl p-2 bg-white hover:bg-gray-300 cursor-pointer"
             >
               <X size={22} />
             </button>
@@ -91,18 +91,18 @@ const DashboardListDetails = ({ order, onClose }) => {
 
               <Info label="Store ID" value={order.store_id} />
 
-              <Info
+              {/* <Info
                 label="Delivery Agent ID"
                 value={order.delivery_agent_id || "-"}
-              />
+              /> */}
 
-              <Info label="Offer ID" value={order.offer_id || "-"} />
+              {/* <Info label="Offer ID" value={order.offer_id || "-"} /> */}
 
-              <Info label="Referral ID" value={order.referral_id || "-"} />
+              {/* <Info label="Referral ID" value={order.referral_id || "-"} /> */}
 
-              <Info label="Notes" value={order.notes || "-"} />
+              {/* <Info label="Notes" value={order.notes || "-"} /> */}
 
-              <Info label="Delivered OTP" value={order.delivered_otp || "-"} />
+              {/* <Info label="Delivered OTP" value={order.delivered_otp || "-"} /> */}
 
               <Info label="Delivered At" value={order.delivered_at || "-"} />
 
@@ -305,13 +305,13 @@ const DashboardListDetails = ({ order, onClose }) => {
           {/* Products */}
 
           <section>
-            <h3 className="text-xl font-bold border-l-4 border-pink-600 pl-3 mb-5">
+            <h3 className="text-xl font-bold border-l-4 border-red-500 pl-3 mb-5">
               Ordered Products
             </h3>
 
             <div className="overflow-x-auto rounded-2xl border border-zinc-300 bg-white shadow-md">
               <table className="min-w-full">
-                <thead className="bg-blue-600 text-white">
+                <thead className="bg-red-500 text-white">
                   <tr>
                     <th className="px-5 py-4 text-left">Product</th>
                     <th className="px-5 py-4 text-left">Price</th>
@@ -352,13 +352,13 @@ const DashboardListDetails = ({ order, onClose }) => {
             </h3>
 
             {order.delivery_agent ? (
-              <>
+              <div className="grid md:grid-cols-3 gap-31">
                 <Info label="Name" value={order.delivery_agent.name} />
 
                 <Info label="Phone" value={order.delivery_agent.phone} />
 
                 <Info label="Status" value={order.delivery_agent.status} />
-              </>
+              </div>
             ) : (
               <div className="text-gray-500">Delivery Agent Not Assigned</div>
             )}

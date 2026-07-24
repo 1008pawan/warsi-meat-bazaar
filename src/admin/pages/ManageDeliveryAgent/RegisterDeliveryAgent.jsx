@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useRegisterAgent } from "../../../hooks/useRegisterAgent";
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react'; // Added missing import
 
 const RegisterDeliveryAgent = () => {
+  const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     name: '',
@@ -19,7 +22,6 @@ const RegisterDeliveryAgent = () => {
   const [message, setMessage] = useState({ text: '', type: '' });
   const { mutate, isPending } = useRegisterAgent();
 
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -28,7 +30,6 @@ const RegisterDeliveryAgent = () => {
     }));
   };
 
-  
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFormData(prevState => ({
@@ -46,7 +47,6 @@ const RegisterDeliveryAgent = () => {
       return;
     }
 
-    
     const payload = new FormData();
     payload.append('name', formData.name);
     payload.append('email', formData.email);
@@ -57,7 +57,6 @@ const RegisterDeliveryAgent = () => {
     payload.append('vehicle_number', formData.vehicle_number);
     payload.append('license_number', formData.license_number);
     
-    
     if (formData.front_image) {
       payload.append('front_image', formData.front_image);
     }
@@ -65,7 +64,6 @@ const RegisterDeliveryAgent = () => {
       payload.append('back_image', formData.back_image);
     }
 
-    
     mutate(payload, {
       onSuccess: (data) => {
         setMessage({ text: "Delivery Agent Registered Successfully!", type: "success" });
@@ -77,10 +75,20 @@ const RegisterDeliveryAgent = () => {
   };
 
   const styles = {
+    // wrapper: {
+    //   width: '100%',
+    //   minHeight: '100vh',
+    //   backgroundColor: '#f4f6f8',
+    //   padding: '20px',
+    //   boxSizing: 'border-box',
+    //   display: 'flex',
+    //   justifyContent: 'center',
+    //   alignItems: 'flex-start'
+    // },
     container: {
       width: '100%', 
-      // maxWidth: '700px', 
-      // margin: '40px auto',
+      // maxWidth: '100%', 
+      margin: '20px auto',
       padding: '25px',
       backgroundColor: '#ffffff',
       borderRadius: '10px',
@@ -88,11 +96,30 @@ const RegisterDeliveryAgent = () => {
       boxSizing: 'border-box',
       fontFamily: 'Arial, sans-serif'
     },
+    headerWrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '20px',
+      gap: '15px'
+    },
+    backButton: {
+      width: '40px',
+      height: '40px',
+      borderRadius: '8px',
+      backgroundColor: '#f1f3f5',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      border: 'none',
+      transition: 'background-color 0.2s'
+    },
     title: {
-      textAlign: 'center',
-      marginBottom: '25px',
+      margin: 0,
       color: '#333',
-      fontSize: '24px'
+      fontSize: '22px',
+      flexGrow: 1,
+      textAlign: 'center'
     },
     formGroup: {
       display: 'flex',
@@ -113,7 +140,8 @@ const RegisterDeliveryAgent = () => {
       boxSizing: 'border-box',
       fontSize: '15px',
       outline: 'none',
-      transition: 'border-color 0.3s'
+      transition: 'border-color 0.3s',
+      backgroundColor: '#fff'
     },
     fileInput: {
       width: '100%',
@@ -121,17 +149,22 @@ const RegisterDeliveryAgent = () => {
       borderRadius: '6px',
       border: '1px solid #ccc',
       boxSizing: 'border-box',
-      fontSize: '15px',
+      fontSize: '14px',
       backgroundColor: '#f8f9fa'
     },
+    buttonContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      width: '100%'
+    },
     button: {
-      width: '50%', 
+      width: '100%', 
+      maxWidth: '300px',
       padding: '14px',
-      margin: '20px auto 0',
-      backgroundColor: isPending ? '#6c757d' : '#007BFF',
+      backgroundColor: isPending ? '#EF4444' : '#EF4444',
       color: 'white',
       border: 'none',
-      borderRadius: '6px',
+      borderRadius: '15px',
       fontSize: '16px',
       fontWeight: 'bold',
       cursor: isPending ? 'not-allowed' : 'pointer',
@@ -151,115 +184,128 @@ const RegisterDeliveryAgent = () => {
     row: {
       display: 'flex',
       flexWrap: 'wrap', 
-      gap: '20px'
+      gap: '15px'
     },
     col: {
-      flex: '1 1 300px', 
+      flex: '1 1 280px', 
       boxSizing: 'border-box'
     }
   };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Register Delivery Agent</h2>
-
-      {message.text && <div style={styles.message}>{message.text}</div>}
-
-      <form onSubmit={handleSubmit}>
+    // <div style={styles.wrapper}>
+      <div style={styles.container}>
         
-        <div style={styles.row}>
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Name:</label>
-              <input type="text" name="name" value={formData.name} onChange={handleChange} required style={styles.input} placeholder="Enter full name" />
-            </div>
-          </div>
-
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Email:</label>
-              <input type="email" name="email" value={formData.email} onChange={handleChange} required style={styles.input} placeholder="Enter email address" />
-            </div>
-          </div>
+        <div style={styles.headerWrapper}>
+          <button 
+            type="button"
+            onClick={() => navigate(-1)} 
+            style={styles.backButton}
+            title="Go Back"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          <h2 style={styles.title}>Register Delivery Agent</h2>
         </div>
 
-        <div style={styles.row}>
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Password:</label>
-              <input type="password" name="password" value={formData.password} onChange={handleChange} required style={styles.input} placeholder="Enter password" />
+        {message.text && <div style={styles.message}>{message.text}</div>}
+
+        <form onSubmit={handleSubmit}>
+          
+          <div style={styles.row}>
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Name:</label>
+                <input type="text" name="name" value={formData.name} onChange={handleChange} required style={styles.input} placeholder="Enter full name" />
+              </div>
+            </div>
+
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Email:</label>
+                <input type="email" name="email" value={formData.email} onChange={handleChange} required style={styles.input} placeholder="Enter email address" />
+              </div>
             </div>
           </div>
 
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Confirm Password:</label>
-              <input type="password" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} required style={styles.input} placeholder="Confirm password" />
+          <div style={styles.row}>
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Password:</label>
+                <input type="password" name="password" value={formData.password} onChange={handleChange} required style={styles.input} placeholder="Enter password" />
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div style={styles.row}>
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Phone Number:</label>
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={styles.input} placeholder="Enter 10-digit number" maxLength={10} />
-            </div>
-          </div>
-
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Vehicle Type:</label>
-              <select name="vehicle_type" value={formData.vehicle_type} onChange={handleChange} style={styles.input} required>
-                <option value="" disabled>Select Vehicle</option>
-                <option value="bike">Bike</option>
-                <option value="scooter">Scooter</option>
-                <option value="van">Van</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div style={styles.row}>
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Vehicle Number:</label>
-              <input type="text" name="vehicle_number" value={formData.vehicle_number} onChange={handleChange} required style={styles.input} placeholder="e.g. MH12AB1234" />
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Confirm Password:</label>
+                <input type="password" name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} required style={styles.input} placeholder="Confirm password" />
+              </div>
             </div>
           </div>
 
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>License Number:</label>
-              <input type="text" name="license_number" value={formData.license_number} onChange={handleChange} required style={styles.input} placeholder="Enter driving license" />
+          <div style={styles.row}>
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Phone Number:</label>
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={styles.input} placeholder="Enter 10-digit number" maxLength={10} />
+              </div>
+            </div>
+
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Vehicle Type:</label>
+                <select name="vehicle_type" value={formData.vehicle_type} onChange={handleChange} style={styles.input} required>
+                  <option value="" disabled>Select Vehicle</option>
+                  <option value="bike">Bike</option>
+                  <option value="scooter">Scooter</option>
+                  <option value="van">Van</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Naye Image Upload Fields */}
-        <div style={styles.row}>
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Front Image:</label>
-              {/* Note: onChange me handleFileChange ka use kiya hai */}
-              <input type="file" accept="image/*" name="front_image" onChange={handleFileChange} required style={styles.fileInput} />
+          <div style={styles.row}>
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Vehicle Number:</label>
+                <input type="text" name="vehicle_number" value={formData.vehicle_number} onChange={handleChange} required style={styles.input} placeholder="e.g. MH12AB1234" />
+              </div>
+            </div>
+
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>License Number:</label>
+                <input type="text" name="license_number" value={formData.license_number} onChange={handleChange} required style={styles.input} placeholder="Enter driving license" />
+              </div>
             </div>
           </div>
 
-          <div style={styles.col}>
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Back Image (Optional):</label>
-              <input type="file" accept="image/*" name="back_image" onChange={handleFileChange} style={styles.fileInput} />
+          <div style={styles.row}>
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Front Image:</label>
+                <input type="file" accept="image/*" name="front_image" onChange={handleFileChange} required style={styles.fileInput} />
+              </div>
+            </div>
+
+            <div style={styles.col}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Back Image (Optional):</label>
+                <input type="file" accept="image/*" name="back_image" onChange={handleFileChange} style={styles.fileInput} />
+              </div>
             </div>
           </div>
-        </div>
 
-        <button type="submit" disabled={isPending} style={styles.button}>
-          {isPending ? 'Registering...' : 'Register Agent'}
-        </button>
+          <div style={styles.buttonContainer}>
+            <button type="submit" disabled={isPending} style={styles.button}>
+              {isPending ? 'Registering...' : 'Register Agent'}
+            </button>
+          </div>
 
-      </form>
-    </div>
+        </form>
+      </div>
+    // </div>
   );
 };
 

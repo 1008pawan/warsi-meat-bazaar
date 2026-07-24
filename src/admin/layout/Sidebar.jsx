@@ -16,7 +16,6 @@ import {
   Layers,
   ListPlus,
   Activity,
-  Package2,
 } from "lucide-react";
 
 import { useState } from "react";
@@ -42,7 +41,6 @@ const menus = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/admin" },
   { name: "Stores", icon: Store, path: "/admin/stores" },
   { name: "Category", icon: Layers, path: "/admin/category" },
-  { name: "Product", icon: Package2, path: "/admin/product" },
   { name: "All Orders", icon: ListPlus, path: "/admin/allorders" },
   { name: "Offers", icon: TicketPercent, path: "/admin/offers" },
   { name: "Customers", icon: Users, path: "/admin/customers" },
