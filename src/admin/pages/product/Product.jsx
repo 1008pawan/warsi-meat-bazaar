@@ -3,9 +3,14 @@ import DataTable from "react-data-table-component";
 import { Search, Plus, Eye, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { STORAGE_URL } from "../../../components/config/publicApi";
-import { useProducts } from "../../../hooks/useAdminProducts";
+import {
+  useDeleteProducts,
+  useDeleteVariantProducts,
+  useProducts,
+} from "../../../hooks/useAdminProducts";
 import Pagination from "../../ui/Pagination";
 import ProductDetailsModal from "../../ui/ProductDetailsModal";
+import Swal from "sweetalert2";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -15,6 +20,8 @@ const Products = () => {
   const [openModal, setOpenModal] = useState(false);
 
   const { data: updateStatus, isLoading } = useProducts(page);
+  const { mutate: deleteProductsMutation } = useDeleteProducts();
+  const { mutate: deleteProductsVariantMutation } = useDeleteVariantProducts();
 
   const products = updateStatus?.data || [];
   const meta = updateStatus?.meta;
@@ -24,6 +31,38 @@ const Products = () => {
       item.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [products, search]);
+
+  const handleDelete = (groupId) => {
+    Swal.fire({
+      title: "Delete Products?",
+      text: "You won't be able to recover this product!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, Delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteProductsMutation(groupId);
+      }
+    });
+  };
+
+  const handleVariantDelete = (VariantId) => {
+    Swal.fire({
+      title: "Delete Products Variant?",
+      text: "You won't be able to recover this product variant!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc2626",
+      cancelButtonColor: "#6b7280",
+      confirmButtonText: "Yes, Delete",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteProductsVariantMutation(VariantId);
+      }
+    });
+  };
 
   const columns = [
     {
@@ -146,13 +185,22 @@ const Products = () => {
           </button>
 
           <button
-            onClick={() => navigate(`/admin/update-product/${row.id}`)}
+            onClick={() =>
+              navigate(`/admin/update-product/${row.id}`, {
+                state: {
+                  group_id: row.group_id,
+                },
+              })
+            }
             className="w-9 h-9 rounded-lg bg-yellow-100 text-yellow-600 hover:bg-yellow-200 flex justify-center items-center cursor-pointer"
           >
             <Pencil size={18} />
           </button>
 
-          <button className="w-9 h-9 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 flex justify-center items-center cursor-pointer">
+          <button
+            onClick={() => handleDelete(row.group_id)}
+            className="w-9 h-9 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 flex justify-center items-center cursor-pointer"
+          >
             <Trash2 size={18} />
           </button>
         </div>
@@ -215,6 +263,7 @@ const Products = () => {
         open={openModal}
         onClose={() => setOpenModal(false)}
         id={selectedId}
+        deleteVariant={handleVariantDelete}
       />
     </div>
   );

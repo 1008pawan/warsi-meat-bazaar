@@ -1,9 +1,9 @@
 import React from "react";
-import { X } from "lucide-react";
+import { Trash2, X } from "lucide-react";
 import { useProductDetails } from "../../hooks/useAdminProducts";
 import { STORAGE_URL } from "../../components/config/publicApi";
 
-const ProductDetailsModal = ({ open, onClose, id }) => {
+const ProductDetailsModal = ({ open, onClose, id, deleteVariant }) => {
   const { data, isLoading } = useProductDetails(id, open);
 
   if (!open) return null;
@@ -38,7 +38,6 @@ const ProductDetailsModal = ({ open, onClose, id }) => {
                   <p className="text-gray-500 mt-3">{product.description}</p>
 
                   <div className="grid md:grid-cols-3 grid-cols-2 gap-4 mt-6">
-
                     <Info title="Price" value={`₹${product.price}`} />
 
                     <Info title="Sale Price" value={`₹${product.sale_price}`} />
@@ -65,19 +64,35 @@ const ProductDetailsModal = ({ open, onClose, id }) => {
                         <th className="px-4">Sale Price</th>
                         <th className="px-4">Stock</th>
                         <th className="px-4">Default</th>
+                        <th className="px-4">Action</th>
                       </tr>
                     </thead>
 
                     <tbody>
                       {product.variants.map((variant) => (
-                        <tr key={variant.id} className="border-b border-zinc-300">
-                          <td className="p-3 text-center px-4">{variant.sku}</td>
+                        <tr
+                          key={variant.id}
+                          className="border-b border-zinc-300"
+                        >
+                          <td className="p-3 text-center px-4">
+                            {variant.sku}
+                          </td>
                           <td className="text-center px-4">{variant.weight}</td>
                           <td className="text-center px-4">₹{variant.price}</td>
-                          <td className="text-center px-4">₹{variant.sale_price}</td>
+                          <td className="text-center px-4">
+                            ₹{variant.sale_price}
+                          </td>
                           <td className="text-center px-4">{variant.stock}</td>
                           <td className="text-center px-4">
                             {variant.is_default ? "Yes" : "No"}
+                          </td>
+                          <td className="text-center">
+                            <button
+                              onClick={() => deleteVariant(variant.id)}
+                              className="w-9 h-9 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 flex justify-center items-center mx-auto cursor-pointer"
+                            >
+                              <Trash2 size={18} />
+                            </button>
                           </td>
                         </tr>
                       ))}

@@ -40,6 +40,7 @@ import Customers from "./admin/pages/Customers";
 import ActivityLog from "./admin/pages/ActivityLog"
 import Product from "./admin/pages/product/Product";
 import AddProduct from "./admin/pages/product/AddProduct";
+import UpdateProduct from "./admin/pages/product/UpdateProduct";
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
           <Route path="add-offer" element={<AddOffers />} />
           <Route path="update-offer/:id" element={<UpdateOffers />} />
           <Route path="add-product" element={<AddProduct />} />
+          <Route path="update-product/:id" element={<UpdateProduct />} />
           <Route
             path="/admin/category/edit/:id"
             element={<UpdateCategories />}

@@ -20,29 +20,28 @@ export const createProduct = async (formData) => {
   return data;
 };
 
-// export const updateProduct = async (formData) => {
-//   const { data } = await api.post("/admin/products/update", formData, {
-//     headers: {
-//       "Content-Type": "multipart/form-data",
-//     },
-//   });
+export const updateProduct = async (formData) => {
+  const { data } = await api.post("/admin/variants/products/update", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
-//   return data;
-// };
+  return data;
+};
 
-// export const deleteProduct = async (product_id) => {
-//   const { data } = await api.post("/admin/products/delete", {
-//     product_id,
-//   });
+export const deleteProduct = async (groupId) => {
+  const { data } = await api.post("/admin/variants/products/delete", {
+    group_id: groupId,
+  });
 
-//   return data;
-// };
+  return data;
+};
 
-// export const changeProductStatus = async ({ product_id, status }) => {
-//   const { data } = await api.post("/admin/products/status", {
-//     product_id,
-//     status,
-//   });
+export const deleteVariantProduct = async (VariantId) => {
+  const { data } = await api.post("/admin/variants/products/variant/delete", {
+    variant_id: VariantId,
+  });
 
-//   return data;
-// };
+  return data;
+};

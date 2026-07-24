@@ -1,16 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../../components/config/privetApi";
 import { toast } from "react-hot-toast";
 import { ArrowLeft, Camera, Plus, Trash2, X } from "lucide-react";
-import { useCreateProduct } from "../../../hooks/useAdminProducts";
-import { useNavigate } from "react-router-dom";
+import {
+  useProductDetails,
+  useUpdateProduct,
+} from "../../../hooks/useAdminProducts";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCategories } from "../../../hooks/useCategories";
+import { STORAGE_URL } from "../../../components/config/publicApi";
+import { useLocation } from "react-router-dom";
 
-export default function AddProduct() {
+export default function UpdateProduct() {
+  const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
+
   const [errors, setErrors] = useState({});
 
-  const { mutate, isPending } = useCreateProduct(setErrors);
+  const { data } = useProductDetails(id);
+  const product = data?.data;
+  const groupId = location.state?.group_id;
+
+  const { mutate, isPending } = useUpdateProduct(id, setErrors);
   const { data: category = [], isLoading } = useCategories();
 
   const [form, setForm] = useState({
@@ -130,22 +142,77 @@ export default function AddProduct() {
   };
 
   const makeDefault = (index) => {
-    const updated = form.variants.map((item, i) => ({
-      ...item,
-      is_default: i === index ? 1 : 0,
+    setForm((prev) => ({
+      ...prev,
+      variants: prev.variants.map((v, i) => ({
+        ...v,
+        is_default: i === index,
+      })),
     }));
+  };
+
+  useEffect(() => {
+    if (!product) return;
 
     setForm({
-      ...form,
-      variants: updated,
+      category_id: product.category_id || "",
+      sub_category_id: product.sub_category_id || "",
+      type: product.type || "",
+      name: product.name || "",
+      description: product.description || "",
+      price: product.price || "",
+      sale_price: product.sale_price || "",
+      has_variants: !!product.has_variants,
+      is_live: !!product.is_live,
+      status: product.status || "active",
+
+      // old images
+      images: product.images || [],
+
+      variant_attributes: product.variant_attributes?.length
+        ? product.variant_attributes
+        : ["quantity"],
+
+      variants:
+        product.variants?.length > 0
+          ? product.variants.map((v) => ({
+              id: v.id,
+              sku: v.sku,
+              attributes: {
+                quantity: v.attributes?.quantity || "",
+              },
+              weight: v.weight || "",
+              unit: v.unit || "",
+              stock: v.stock || "",
+              price: v.price || "",
+              sale_price: v.sale_price || "",
+              is_default: v.is_default,
+            }))
+          : [
+              {
+                sku: "",
+                attributes: {
+                  quantity: "",
+                },
+                weight: "",
+                unit: "",
+                stock: "",
+                price: "",
+                sale_price: "",
+                is_default: true,
+              },
+            ],
     });
-  };
+  }, [product]);
 
   const submit = (e) => {
     e.preventDefault();
-
+    
     const fd = new FormData();
 
+    fd.append("_method", "POST");
+
+    fd.append("group_id", groupId);
     fd.append("category_id", form.category_id);
     fd.append("sub_category_id", form.category_id);
     fd.append("type", form.type);
@@ -157,33 +224,32 @@ export default function AddProduct() {
     fd.append("is_live", form.is_live ? 1 : 0);
     fd.append("status", form.status);
 
-    form.variant_attributes.forEach((attr, index) => {
-      fd.append(`variant_attributes[${index}]`, attr);
+    form.variant_attributes.forEach((item, i) => {
+      fd.append(`variant_attributes[${i}]`, item);
     });
 
-    form.variants.forEach((variant, index) => {
-      fd.append(`variants[${index}][sku]`, variant.sku);
+    form.variants.forEach((variant, i) => {
+      if (variant.id) {
+        fd.append(`variants[${i}][id]`, variant.id);
+      }
 
+      fd.append(`variants[${i}][sku]`, variant.sku);
       fd.append(
-        `variants[${index}][attributes][quantity]`,
+        `variants[${i}][attributes][quantity]`,
         variant.attributes.quantity,
       );
+      fd.append(`variants[${i}][weight]`, variant.weight);
+      fd.append(`variants[${i}][unit]`, variant.unit);
+      fd.append(`variants[${i}][price]`, variant.price);
+      fd.append(`variants[${i}][sale_price]`, variant.sale_price);
+      fd.append(`variants[${i}][stock]`, variant.stock);
+      fd.append(`variants[${i}][is_default]`, variant.is_default ? 1 : 0);
+    });
 
-      fd.append(`variants[${index}][unit]`, variant.unit);
-
-      fd.append(`variants[${index}][price]`, variant.price);
-
-      fd.append(`variants[${index}][sale_price]`, variant.sale_price);
-
-      fd.append(`variants[${index}][stock]`, variant.stock);
-
-      fd.append(`variants[${index}][weight]`, variant.weight);
-
-      fd.append(`variants[${index}][is_default]`, variant.is_default);
-
-      form.images.forEach((image) => {
+    form.images.forEach((image) => {
+      if (image instanceof File) {
         fd.append("images[]", image);
-      });
+      }
     });
 
     mutate(fd);
@@ -198,7 +264,7 @@ export default function AddProduct() {
         >
           <ArrowLeft />
         </span>
-        <h2 className="text-3xl font-bold">Add Product</h2>
+        <h2 className="text-3xl font-bold">Update Product</h2>
       </div>
 
       <div className="max-w-6xl mx-auto p-6 bg-white rounded-2xl shadow-lg">
@@ -226,6 +292,7 @@ export default function AddProduct() {
               onChange={handleChange}
             />
           </div>
+
           <div className="grid md:grid-cols-2 gap-5">
             <div>
               <label className="block mb-2 font-medium">Category</label>
@@ -398,7 +465,7 @@ export default function AddProduct() {
                     onChange={(e) =>
                       handleVariantChange(index, "sku", e.target.value)
                     }
-                    className="border border-zinc-300 p-3 rounded-lg"
+                    className="border border-zinc-300 p-3 rounded-lg w-full"
                   />
                   {errors[`variants.${index}.sku`] && (
                     <p className="text-red-500 text-sm mt-1">
@@ -413,7 +480,7 @@ export default function AddProduct() {
                   onChange={(e) =>
                     handleVariantChange(index, "weight", e.target.value)
                   }
-                  className="border border-zinc-300 p-3 rounded-lg"
+                  className="border border-zinc-300 p-3 rounded-lg w-full"
                 />
 
                 <div>
@@ -439,7 +506,7 @@ export default function AddProduct() {
                     onChange={(e) =>
                       handleVariantChange(index, "price", e.target.value)
                     }
-                    className="border border-zinc-300 p-3 rounded-lg"
+                    className="border border-zinc-300 p-3 rounded-lg w-full"
                   />
                   {errors[`variants.${index}.price`] && (
                     <p className="text-red-500 text-sm mt-1">
@@ -454,7 +521,7 @@ export default function AddProduct() {
                   onChange={(e) =>
                     handleVariantChange(index, "sale_price", e.target.value)
                   }
-                  className="border border-zinc-300 p-3 rounded-lg"
+                  className="border border-zinc-300 p-3 rounded-lg w-full"
                 />
 
                 <div>
@@ -464,7 +531,7 @@ export default function AddProduct() {
                     onChange={(e) =>
                       handleVariantChange(index, "stock", e.target.value)
                     }
-                    className="border border-zinc-300 p-3 rounded-lg"
+                    className="border border-zinc-300 p-3 rounded-lg w-full"
                   />
                   {errors[`variants.${index}.stock`] && (
                     <p className="text-red-500 text-sm mt-1">
@@ -478,7 +545,7 @@ export default function AddProduct() {
                 <label className="flex gap-2">
                   <input
                     type="radio"
-                    checked={variant.is_default === 1}
+                    checked={Boolean(variant.is_default)}
                     onChange={() => makeDefault(index)}
                   />
                   Default Variant
@@ -520,7 +587,11 @@ export default function AddProduct() {
                 {form.images.map((file, index) => (
                   <div key={index} className="relative group">
                     <img
-                      src={URL.createObjectURL(file)}
+                      src={
+                        file instanceof File
+                          ? URL.createObjectURL(file)
+                          : `${STORAGE_URL}/${file}`
+                      }
                       alt={`Preview ${index}`}
                       className="h-28 w-full object-cover rounded-lg border border-zinc-300"
                     />
@@ -544,7 +615,7 @@ export default function AddProduct() {
               disabled={isPending}
               className="bg-red-600 hover:bg-red-700 cursor-pointer disabled:opacity-50 text-white px-8 py-3 rounded-xl font-semibold"
             >
-              {isPending ? "Saving..." : "Create Product"}
+              {isPending ? "Updating..." : "Update Product"}
             </button>
           </div>
         </form>
