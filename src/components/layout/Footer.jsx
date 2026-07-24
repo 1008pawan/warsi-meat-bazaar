@@ -98,32 +98,32 @@ export default function Footer() {
 
             <ul className="space-y-3 text-gray-400">
               <li>
-                <Link to="/" className="hover:text-red-500">
+                <Link to="/category/Chicken product" className="hover:text-red-500">
                   Fresh Chicken
                 </Link>
               </li>
 
               <li>
-                <Link to="/" className="hover:text-red-500">
+                <Link to="/category/Mutton product" className="hover:text-red-500">
                   Fresh Mutton
                 </Link>
               </li>
 
               <li>
-                <Link to="/" className="hover:text-red-500">
+                <Link to="/category/Fish product" className="hover:text-red-500">
                   Fish
                 </Link>
               </li>
 
               <li>
-                <Link to="/" className="hover:text-red-500">
+                <Link to="/category/Seafood product" className="hover:text-red-500">
                   Sea Food
                 </Link>
               </li>
 
               <li>
-                <Link to="/" className="hover:text-red-500">
-                  Combo Packs
+                <Link to="/category/Soups And Dog Food" className="hover:text-red-500">
+                  Soups And Dog Food
                 </Link>
               </li>
             </ul>

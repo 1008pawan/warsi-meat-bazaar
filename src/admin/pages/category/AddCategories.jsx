@@ -7,7 +7,8 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useCreateCategory } from "../../../hooks/useAdminCategories";
+import { useCreateCategory ,useSubCreateCategory  } from "../../../hooks/useAdminCategories";
+
 
 const AddCategories = () => {
   const navigate = useNavigate();

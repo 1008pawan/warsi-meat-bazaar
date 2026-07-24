@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
+
 const CategoryPage = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useCategories();
